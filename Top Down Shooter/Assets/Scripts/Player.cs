@@ -77,6 +77,9 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        // If anything touches the player, end the game
+        Time.timeScale = 0;
         Destroy(gameObject);
+        // EditorApplication.isPlaying = false;
     }
 }

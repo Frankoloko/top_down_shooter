@@ -74,4 +74,9 @@ public class Player : MonoBehaviour
             Destroy(projectile, DestroyTime);
         }
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        Destroy(gameObject);
+    }
 }

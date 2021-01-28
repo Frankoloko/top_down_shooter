@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyRed : MonoBehaviour
+public class EnemyBase : MonoBehaviour
 {
     public float health = 5f;
 
@@ -11,12 +11,6 @@ public class EnemyRed : MonoBehaviour
         // Get the camera's borders
         float maxCameraHeight = Camera.main.orthographicSize + 2;
         float maxCameraWidth = Camera.main.orthographicSize * Camera.main.aspect + 2;
-
-        // THIS DOESN'T CURRENTLY WORK CAUSE IT DESTORYS THE OBJECT THAT WE ACTUALLY NEED TO CLONE LATER
-        // This checks if this is one of the enemies in the initial scene (in which case we delete them)
-        // if (transform.position.x < maxCameraHeight & transform.position.y < maxCameraHeight) {
-        //     Destroy(gameObject);
-        // }
 
         // Create the spawn points (either outside the top border, or outside the side border)
         float spawnHeight = 0f;
@@ -49,18 +43,5 @@ public class EnemyRed : MonoBehaviour
 
         // Transform to outside of camera view
         transform.position = new Vector2(spawnWidth, spawnHeight);
-    }
-
-    void MoveEnemy()
-    {
-        GameObject player = GameObject.Find("Player");
-
-        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, 5f * Time.deltaTime);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        MoveEnemy();
     }
 }

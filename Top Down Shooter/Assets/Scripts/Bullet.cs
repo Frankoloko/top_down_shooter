@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
                 if (other.CompareTag("Enemy")) {
                     Destroy(gameObject);
                     GameObject enemyObject = GameObject.Find(other.name);
-                    EnemyRed enemy = enemyObject.GetComponent<EnemyRed>();
+                    EnemyBase enemy = enemyObject.GetComponent<EnemyBase>();
                     if (enemy.health == 1) {
                         Destroy(enemyObject);
                         break;

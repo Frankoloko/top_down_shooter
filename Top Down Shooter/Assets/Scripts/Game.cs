@@ -8,11 +8,12 @@ public class Wave
     public GameObject[] spawn_order;
 }
 
-public class GodFile : MonoBehaviour
+public class Game : MonoBehaviour
 {
     public int NextWave = 5;
     public GameObject Enemy_Red;
     public GameObject Enemy_Brown;
+    public GameObject Enemy_Green;
 
     private List<Wave> waves;
 
@@ -35,6 +36,14 @@ public class GodFile : MonoBehaviour
     void SetupWaves()
     {
         waves = new List<Wave>(){
+            new Wave(){
+                spawn_time_seconds = 30,
+                spawn_order = new GameObject[]{
+                    Enemy_Red, Enemy_Red, Enemy_Red,
+                    Enemy_Red, Enemy_Brown, Enemy_Red, Enemy_Brown, Enemy_Red, Enemy_Brown,
+                    Enemy_Brown, Enemy_Green, Enemy_Brown, Enemy_Green, Enemy_Brown, Enemy_Green,
+                },
+            },
             new Wave(){
                 spawn_time_seconds = 30,
                 spawn_order = new GameObject[]{

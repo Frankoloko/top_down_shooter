@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Player : MonoBehaviour
 {
@@ -19,17 +20,41 @@ public class Player : MonoBehaviour
     [Header("Watchers")]
     public Vector2 movement;
 
+    public enum Ability1{Teleport, Invisible, TimeStop}
+    public Ability1 ability1;
+
     // Update is called once per frame
     void Update()
     {
         MovePlayer();
         ShootProjectile();
+
+        if (Input.GetKeyDown("e")) {
+            if (movement.y > 0) {
+                // Up
+                rigidbody.MovePosition(new Vector2(rigidbody.position.x, rigidbody.position.y + 10f) + movement * movementSpeed * Time.fixedDeltaTime);
+            }
+            if (movement.y < 0) {
+                // Down
+                rigidbody.MovePosition(new Vector2(rigidbody.position.x, rigidbody.position.y - 10f) + movement * movementSpeed * Time.fixedDeltaTime);
+            }
+            if (movement.x > 0) {
+                // Right
+                rigidbody.MovePosition(new Vector2(rigidbody.position.x + 10f, rigidbody.position.y) + movement * movementSpeed * Time.fixedDeltaTime);
+            }
+            if (movement.x < 0) {
+                // Left
+                rigidbody.MovePosition(new Vector2(rigidbody.position.x - 10f, rigidbody.position.y) + movement * movementSpeed * Time.fixedDeltaTime);
+            }
+        } else {
+            rigidbody.MovePosition(rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime);
+        }
     }
 
-    void FixedUpdate()
-    {
-       rigidbody.MovePosition(rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime);
-    }
+    // void FixedUpdate()
+    // {
+
+    // }
 
     void MovePlayer()
     {
@@ -48,19 +73,19 @@ public class Player : MonoBehaviour
     void ShootProjectile()
     {
         // Shooting code
-        if (Input.GetKeyDown("left") ^ Input.GetKeyDown("right") ^ Input.GetKeyDown("down") ^ Input.GetKeyDown("up")) {
+        if (Input.GetKeyDown("a") ^ Input.GetKeyDown("d") ^ Input.GetKeyDown("s") ^ Input.GetKeyDown("w")) {
             // Get the velocity (direction)
             Vector2 velocity = new Vector2(0.0f, 0.0f);
-            if (Input.GetKeyDown("left")) {
+            if (Input.GetKeyDown("a")) {
                 velocity = new Vector2(ProjectileSpeed * -1, 0.0f);
             }
-            if (Input.GetKeyDown("right")) {
+            if (Input.GetKeyDown("d")) {
                 velocity = new Vector2(ProjectileSpeed, 0.0f);
             }
-            if (Input.GetKeyDown("up")) {
+            if (Input.GetKeyDown("w")) {
                 velocity = new Vector2(0.0f, ProjectileSpeed);
             }
-            if (Input.GetKeyDown("down")) {
+            if (Input.GetKeyDown("s")) {
                 velocity = new Vector2(0.0f, ProjectileSpeed * -1);
             }
 

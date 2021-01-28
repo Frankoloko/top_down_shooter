@@ -162,6 +162,7 @@ MonoBehaviour:
   ProjectileSpeed: 18
   DestroyTime: 5
   movement: {x: 0, y: 0}
+  ability1: 0
 --- !u!212 &33335454
 SpriteRenderer:
   m_ObjectHideFlags: 0

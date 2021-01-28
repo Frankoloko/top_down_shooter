@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [Header("Objects")]
-    public Rigidbody2D rigidbody;
+    public new Rigidbody2D rigidbody;
     public Animator animator;
     public GameObject ProjectilePrefab;
 

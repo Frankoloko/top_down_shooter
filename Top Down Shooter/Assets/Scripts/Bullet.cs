@@ -20,11 +20,9 @@ public class Bullet : MonoBehaviour
             if (other != shooter) {
                 if (other.CompareTag("Enemy")) {
                     Destroy(gameObject);
-                    Debug.Log(other.name);
                     GameObject enemyObject = GameObject.Find(other.name);
                     EnemyRed enemy = enemyObject.GetComponent<EnemyRed>();
                     if (enemy.health == 1) {
-                        print("DEAD!");
                         Destroy(enemyObject);
                         break;
                     }
@@ -34,7 +32,6 @@ public class Bullet : MonoBehaviour
 
                 if (other.CompareTag("Prop")) {
                     Destroy(gameObject);
-                    Debug.Log(other.name);
                     break;
                 }
             }

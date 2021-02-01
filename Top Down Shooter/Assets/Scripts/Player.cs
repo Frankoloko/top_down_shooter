@@ -20,41 +20,81 @@ public class Player : MonoBehaviour
     [Header("Watchers")]
     public Vector2 movement;
 
-    public enum Ability1{Teleport, Invisible, TimeStop}
+    public enum Ability1{Flash, Invisible, TimeStop}
     public Ability1 ability1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        MovePlayer();
-        ShootProjectile();
+    float moveBackFromScreenBorder = 0.5f;
+    float maxCameraHeight;
+    float maxCameraWidth;
 
-        if (Input.GetKeyDown("e")) {
-            if (movement.y > 0) {
-                // Up
-                rigidbody.MovePosition(new Vector2(rigidbody.position.x, rigidbody.position.y + 10f) + movement * movementSpeed * Time.fixedDeltaTime);
-            }
-            if (movement.y < 0) {
-                // Down
-                rigidbody.MovePosition(new Vector2(rigidbody.position.x, rigidbody.position.y - 10f) + movement * movementSpeed * Time.fixedDeltaTime);
-            }
-            if (movement.x > 0) {
-                // Right
-                rigidbody.MovePosition(new Vector2(rigidbody.position.x + 10f, rigidbody.position.y) + movement * movementSpeed * Time.fixedDeltaTime);
-            }
-            if (movement.x < 0) {
-                // Left
-                rigidbody.MovePosition(new Vector2(rigidbody.position.x - 10f, rigidbody.position.y) + movement * movementSpeed * Time.fixedDeltaTime);
-            }
-        } else {
-            rigidbody.MovePosition(rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime);
-        }
+    void Start()
+    {
+        maxCameraHeight = Camera.main.orthographicSize - moveBackFromScreenBorder;
+        maxCameraWidth = Camera.main.orthographicSize * Camera.main.aspect - moveBackFromScreenBorder;
     }
 
-    // void FixedUpdate()
-    // {
+    void Update()
+    {
+        // Check for flash function
+        if (Input.GetKeyDown("e")) {
+            Flash();
+        } else {
+            // Normal sideways movement
+            Vector2 newPosition = rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime;
 
-    // }
+            // Only move the player if they aren't already outside the borders
+            if (!(newPosition[1] > maxCameraHeight ^ newPosition[1] < maxCameraHeight * -1 ^ newPosition[0] > maxCameraWidth ^ newPosition[0] < maxCameraWidth * -1)) {
+                rigidbody.MovePosition(newPosition);
+            }
+        }
+
+        MovePlayer();
+        ShootProjectile();
+    }
+
+    void FixedUpdate()
+    {
+
+    }
+
+    void Flash()
+    {
+        float flashDistance = 10f;
+        if (animator.GetFloat("Vertical") > 0) {
+            // Up
+            float new_y = transform.position.y + flashDistance;
+            if (new_y > maxCameraHeight) {
+                new_y = maxCameraHeight;
+            }
+            transform.position = new Vector2(transform.position.x, new_y);
+        }
+        if (animator.GetFloat("Vertical") < 0) {
+            // Down
+            float new_y = transform.position.y - flashDistance;
+            if (new_y < maxCameraHeight * -1) {
+                new_y = maxCameraHeight * -1;
+            }
+            transform.position = new Vector2(transform.position.x, new_y);
+        }
+        if (animator.GetFloat("Horizontal") > 0) {
+            // Right
+            float new_x = transform.position.x + flashDistance;
+            if (new_x > maxCameraWidth) {
+                new_x = maxCameraWidth;
+            }
+            transform.position = new Vector2(new_x, transform.position.y);
+        }
+        if (animator.GetFloat("Horizontal") < 0) {
+            // Left
+            float new_x = transform.position.x - flashDistance;
+            if (new_x < maxCameraWidth * -1) {
+                new_x = maxCameraWidth * -1;
+            }
+            transform.position = new Vector2(new_x, transform.position.y);
+        }
+        SoundController soundController = GameObject.Find("SoundController").GetComponent<SoundController>();
+        soundController.PlayTeleport();
+    }
 
     void MovePlayer()
     {

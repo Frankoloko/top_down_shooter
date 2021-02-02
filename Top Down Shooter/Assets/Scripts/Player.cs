@@ -9,20 +9,17 @@ public class Player : MonoBehaviour
     public new Rigidbody2D rigidbody;
     public Animator animator;
     public GameObject ProjectilePrefab;
-    public float BulletDestroyTime = 5f;
-
-    [Space]
-    [Header("Watcher")]
-    public Vector2 movement;
-
-    public enum Ability1{Flash, Invisible, TimeStop}
-    public Ability1 ability1;
-
-    float moveBackFromScreenBorder = 0.5f;
+    Settings settings;
     float maxCameraHeight;
     float maxCameraWidth;
+    Vector2 movement;
 
-    Settings settings;
+    public float BulletDestroyTime = 5f;
+    float moveBackFromScreenBorder = 0.5f;
+    bool cloneActive = false;
+
+    // public enum Ability1{Flash, Invisible, TimeStop}
+    // public Ability1 ability1;
 
     void Start()
     {
@@ -34,9 +31,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        // Check for flash function
         if (Input.GetKeyDown("e")) {
             Flash();
+        } else if (Input.GetKeyDown("q")) {
+            Clone();
         } else {
             // Normal sideways movement
             Vector2 newPosition = rigidbody.position + movement * settings.player.movementSpeed * Time.fixedDeltaTime;
@@ -141,9 +139,53 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // If anything touches the player, end the game
-        // Time.timeScale = 0;
-        // Destroy(gameObject);
-        SceneManager.LoadScene("Menu");
+        // Get the Player (not the Clone) cloneActive value
+        bool tempCloneActive = false;
+        if (gameObject.name != "Player") {
+            // THIS current function is running from the Clone, so get the original Player's cloneActive value
+            Player player = GameObject.Find("Player").GetComponent<Player>();
+            tempCloneActive = player.cloneActive;
+        } else {
+            // THIS current function is running from the Player, so just use its cloneActive value
+            tempCloneActive = cloneActive;
+        }
+
+        // Check if the Clone is active, if true, destory it, if false, end the game
+        if (tempCloneActive) {
+            GameObject cloneObject = GameObject.Find("Player(Clone)");
+            if (gameObject.name == "Player") {
+                // If the Player was collided with, kill the clone but move the Player to the clone's position
+                transform.position = cloneObject.transform.position;
+                Destroy(cloneObject);
+                cloneActive = false;
+            } else {
+                // If the Clone was collided with, kill it, but turn the cloneActive to true on the Player object
+                Destroy(cloneObject);
+                Player player = GameObject.Find("Player").GetComponent<Player>();
+                player.cloneActive = false;
+            }
+        } else {
+            // No clone alive so just end the game
+            SceneManager.LoadScene("Menu");
+        }
+    }
+
+    void Clone()
+    {
+        // This if stops the player from making multiple clones
+        // It also stops the clone from making more clones
+        if (cloneActive ^ gameObject.name != "Player") {
+            return;
+        }
+        cloneActive = true;
+        GameObject clone = Instantiate(gameObject, new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z), Quaternion.identity);
+        StartCoroutine(DestoryClone(clone));
+    }
+
+    IEnumerator DestoryClone(GameObject clone)
+    {
+        yield return new WaitForSeconds(settings.clone.duration);
+        Destroy(clone);
+        cloneActive = false;
     }
 }

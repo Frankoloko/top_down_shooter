@@ -159,8 +159,6 @@ MonoBehaviour:
   ProjectilePrefab: {fileID: 2857884369212785906, guid: 95807d0ada275499eafb5b8db4fb3702,
     type: 3}
   BulletDestroyTime: 5
-  movement: {x: 0, y: 0}
-  ability1: 0
 --- !u!212 &33335454
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -890,6 +888,9 @@ MonoBehaviour:
     shootCooldown: 7
   enemies:
     movementSpeed: 7
+  clone:
+    cooldown: 7
+    duration: 10
   flash:
     cooldown: 7
     distance: 7

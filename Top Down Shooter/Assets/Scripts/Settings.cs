@@ -10,6 +10,7 @@ public class Settings : MonoBehaviour
     public Player player = new Player();
     public Enemies enemies;
     [Header("Abilities")]
+    public Clone clone;
     public Flash flash;
 
     // General classes
@@ -31,10 +32,16 @@ public class Settings : MonoBehaviour
     // Ability classes, arrange the classes alphabetically
 
     [System.Serializable]
+    public class Clone
+    {
+        public float cooldown = 7f;
+        public float duration = 10f;
+    }
+
+    [System.Serializable]
     public class Flash
     {
         public float cooldown = 7f;
         public float distance = 7f;
     }
 }
-

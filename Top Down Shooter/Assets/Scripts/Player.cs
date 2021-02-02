@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    [Header("Objects")]
     public new Rigidbody2D rigidbody;
     public Animator animator;
     public GameObject ProjectilePrefab;
+    public float BulletDestroyTime = 5f;
 
     [Space]
-    [Header("Settings")]
-    public float movementSpeed = 7f;
-    public float ProjectileSpeed = 18f;
-    public float DestroyTime = 5f;
-
-    [Space]
-    [Header("Watchers")]
+    [Header("Watcher")]
     public Vector2 movement;
 
     public enum Ability1{Flash, Invisible, TimeStop}
@@ -27,8 +22,12 @@ public class Player : MonoBehaviour
     float maxCameraHeight;
     float maxCameraWidth;
 
+    Settings settings;
+
     void Start()
     {
+        settings = GameObject.Find("Settings").GetComponent<Settings>();
+
         maxCameraHeight = Camera.main.orthographicSize - moveBackFromScreenBorder;
         maxCameraWidth = Camera.main.orthographicSize * Camera.main.aspect - moveBackFromScreenBorder;
     }
@@ -40,7 +39,7 @@ public class Player : MonoBehaviour
             Flash();
         } else {
             // Normal sideways movement
-            Vector2 newPosition = rigidbody.position + movement * movementSpeed * Time.fixedDeltaTime;
+            Vector2 newPosition = rigidbody.position + movement * settings.player.movementSpeed * Time.fixedDeltaTime;
 
             // Only move the player if they aren't already outside the borders
             if (!(newPosition[1] > maxCameraHeight ^ newPosition[1] < maxCameraHeight * -1 ^ newPosition[0] > maxCameraWidth ^ newPosition[0] < maxCameraWidth * -1)) {
@@ -92,8 +91,8 @@ public class Player : MonoBehaviour
             }
             transform.position = new Vector2(new_x, transform.position.y);
         }
-        SoundController soundController = GameObject.Find("SoundController").GetComponent<SoundController>();
-        soundController.PlayTeleport();
+        Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
+        sound.PlayTeleport();
     }
 
     void MovePlayer()
@@ -117,16 +116,16 @@ public class Player : MonoBehaviour
             // Get the velocity (direction)
             Vector2 velocity = new Vector2(0.0f, 0.0f);
             if (Input.GetKeyDown("a")) {
-                velocity = new Vector2(ProjectileSpeed * -1, 0.0f);
+                velocity = new Vector2(settings.player.bulletSpeed * -1, 0.0f);
             }
             if (Input.GetKeyDown("d")) {
-                velocity = new Vector2(ProjectileSpeed, 0.0f);
+                velocity = new Vector2(settings.player.bulletSpeed, 0.0f);
             }
             if (Input.GetKeyDown("w")) {
-                velocity = new Vector2(0.0f, ProjectileSpeed);
+                velocity = new Vector2(0.0f, settings.player.bulletSpeed);
             }
             if (Input.GetKeyDown("s")) {
-                velocity = new Vector2(0.0f, ProjectileSpeed * -1);
+                velocity = new Vector2(0.0f, settings.player.bulletSpeed * -1);
             }
 
             // Create new projectile
@@ -136,15 +135,15 @@ public class Player : MonoBehaviour
             bullet.velocity = velocity;
             bullet.shooter = gameObject;
             // Destory the new projectile after an X amount of time
-            Destroy(projectile, DestroyTime);
+            Destroy(projectile, BulletDestroyTime);
         }
     }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
         // If anything touches the player, end the game
-        Time.timeScale = 0;
-        Destroy(gameObject);
-        // EditorApplication.isPlaying = false;
+        // Time.timeScale = 0;
+        // Destroy(gameObject);
+        SceneManager.LoadScene("Menu");
     }
 }

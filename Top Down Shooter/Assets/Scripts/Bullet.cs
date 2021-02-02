@@ -6,11 +6,11 @@ public class Bullet : MonoBehaviour
 {
     public Vector2 velocity = new Vector2(0.0f, 0.0f);
     public GameObject shooter;
-    SoundController soundController;
+    Sound sound;
 
     void Start() {
-        soundController = GameObject.Find("SoundController").GetComponent<SoundController>();
-        soundController.PlayShoot();
+        sound = GameObject.Find("Sound").GetComponent<Sound>();
+        sound.PlayShoot();
     }
 
     void Update() {
@@ -26,15 +26,14 @@ public class Bullet : MonoBehaviour
             if (other != shooter) {
                 if (other.CompareTag("Enemy")) {
                     Destroy(gameObject);
-                    print(other.name);
                     GameObject enemyObject = GameObject.Find(other.name);
                     EnemyBase enemy = enemyObject.GetComponent<EnemyBase>();
                     if (enemy.health == 1) {
-                        soundController.PlayDestroy();
+                        sound.PlayDestroy();
                         Destroy(enemyObject);
                         break;
                     } else {
-                        soundController.PlayHit();
+                        sound.PlayHit();
                     }
                     enemy.health = enemy.health - 1;
                     break;

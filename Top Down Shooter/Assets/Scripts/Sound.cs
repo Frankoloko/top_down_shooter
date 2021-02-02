@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoundController : MonoBehaviour
+public class Sound: MonoBehaviour
 {
     public AudioSource soundShoot;
     public AudioSource soundHit;

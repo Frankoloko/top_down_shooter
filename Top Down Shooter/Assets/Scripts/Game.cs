@@ -73,7 +73,6 @@ public class Game : MonoBehaviour
         // Wait an X amount of time before creating the enemy
         yield return new WaitForSeconds(p_spawn_increment_seconds);
         // Create new projectile
-        print("enemy created");
         GameObject enemy = Instantiate(p_enemy);
         enemy.name = enemy.name + p_spawn_increment_seconds;
     }
@@ -82,6 +81,9 @@ public class Game : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            SceneManager.LoadScene("Menu");
         }
     }
 

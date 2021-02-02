@@ -158,9 +158,7 @@ MonoBehaviour:
   animator: {fileID: 33335457}
   ProjectilePrefab: {fileID: 2857884369212785906, guid: 95807d0ada275499eafb5b8db4fb3702,
     type: 3}
-  movementSpeed: 7
-  ProjectileSpeed: 18
-  DestroyTime: 5
+  BulletDestroyTime: 5
   movement: {x: 0, y: 0}
   ability1: 0
 --- !u!212 &33335454
@@ -298,7 +296,7 @@ GameObject:
   - component: {fileID: 304588976}
   - component: {fileID: 304588971}
   m_Layer: 0
-  m_Name: SoundController
+  m_Name: Sound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -616,7 +614,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304588970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.7945385, y: 1.6239567, z: -0.88378465}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -730,7 +728,7 @@ GameObject:
   - component: {fileID: 1538880288}
   - component: {fileID: 1538880287}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -771,7 +769,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -840,9 +838,9 @@ MonoBehaviour:
   Enemy_Green: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1,
     type: 3}
   AllEnemies:
-  - {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1, type: 3}
   - {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
   - {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
+  - {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1, type: 3}
 --- !u!4 &1613897329
 Transform:
   m_ObjectHideFlags: 0
@@ -856,4 +854,56 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1939515188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1939515190}
+  - component: {fileID: 1939515189}
+  m_Layer: 0
+  m_Name: Settings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1939515189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939515188}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe33ae6d042f846c89f94b859bf00f1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player:
+    bulletSpeed: 15
+    movementSpeed: 7
+    shootCooldown: 7
+  enemies:
+    movementSpeed: 7
+  flash:
+    cooldown: 7
+    distance: 7
+--- !u!4 &1939515190
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1939515188}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

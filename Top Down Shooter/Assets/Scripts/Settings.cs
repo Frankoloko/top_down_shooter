@@ -42,6 +42,6 @@ public class Settings : MonoBehaviour
     public class Flash
     {
         public float cooldown = 7f;
-        public float distance = 7f;
+        public float distance = 15f;
     }
 }

@@ -31,64 +31,52 @@ public class Player : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown("e")) {
+        if (Input.GetKeyDown(KeyCode.E)) {
             Flash();
-        } else if (Input.GetKeyDown("q")) {
+        } else if (Input.GetKeyDown(KeyCode.Q)) {
             Clone();
-        } else {
-            // Normal sideways movement
-            Vector2 newPosition = rigidbody.position + movement * settings.player.movementSpeed * Time.fixedDeltaTime;
-
-            // Only move the player if they aren't already outside the borders
-            if (!(newPosition[1] > maxCameraHeight ^ newPosition[1] < maxCameraHeight * -1 ^ newPosition[0] > maxCameraWidth ^ newPosition[0] < maxCameraWidth * -1)) {
-                rigidbody.MovePosition(newPosition);
-            }
         }
 
         MovePlayer();
         ShootProjectile();
     }
 
-    void FixedUpdate()
-    {
-
-    }
-
     void Flash()
     {
-        float flashDistance = 10f;
+        // Up
         if (animator.GetFloat("Vertical") > 0) {
-            // Up
-            float new_y = transform.position.y + flashDistance;
+            float new_y = transform.position.y + settings.flash.distance;
             if (new_y > maxCameraHeight) {
                 new_y = maxCameraHeight;
             }
             transform.position = new Vector2(transform.position.x, new_y);
         }
+        // Down
         if (animator.GetFloat("Vertical") < 0) {
-            // Down
-            float new_y = transform.position.y - flashDistance;
+            float new_y = transform.position.y - settings.flash.distance;
             if (new_y < maxCameraHeight * -1) {
                 new_y = maxCameraHeight * -1;
             }
             transform.position = new Vector2(transform.position.x, new_y);
         }
+        // Right
         if (animator.GetFloat("Horizontal") > 0) {
-            // Right
-            float new_x = transform.position.x + flashDistance;
+            float new_x = transform.position.x + settings.flash.distance;
             if (new_x > maxCameraWidth) {
                 new_x = maxCameraWidth;
             }
             transform.position = new Vector2(new_x, transform.position.y);
         }
+        // Left
         if (animator.GetFloat("Horizontal") < 0) {
-            // Left
-            float new_x = transform.position.x - flashDistance;
+            float new_x = transform.position.x - settings.flash.distance;
             if (new_x < maxCameraWidth * -1) {
                 new_x = maxCameraWidth * -1;
             }
             transform.position = new Vector2(new_x, transform.position.y);
         }
+
+        // Play teleport sound
         Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
         sound.PlayTeleport();
     }
@@ -96,11 +84,31 @@ public class Player : MonoBehaviour
     void MovePlayer()
     {
         // Get movement direction value
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
+        movement.x = Input.GetAxis("Horizontal");
+        movement.y = Input.GetAxis("Vertical");
 
-        // This IF stops the animation to go back to the "default DOWN" spite. Since the Speed is left at > 0 (the previous frame) the spite will be left at what it last was
+        // Only do something if the player is actually giving movement input
         if (!(movement.x == 0 & movement.y == 0)) {
+            // Normal sideways movement
+            Vector2 newPosition = rigidbody.position + movement * settings.player.movementSpeed * Time.fixedDeltaTime;
+
+            // Only move the player if they aren't outside the camera borders
+            if (newPosition[1] > maxCameraHeight) {
+                newPosition[1] = maxCameraHeight;
+            }
+            if (newPosition[1] < maxCameraHeight * -1) {
+                newPosition[1] = maxCameraHeight * -1;
+            }
+            if (newPosition[0] > maxCameraWidth) {
+                newPosition[0] = maxCameraWidth;
+            }
+            if (newPosition[0] < maxCameraWidth * -1) {
+                newPosition[0] = maxCameraWidth * -1;
+            }
+
+            rigidbody.MovePosition(newPosition);
+
+            // Animation direction setting
             animator.SetFloat("Vertical", movement.y);
             animator.SetFloat("Horizontal", movement.x);
             animator.SetFloat("Speed", movement.sqrMagnitude);
@@ -109,29 +117,33 @@ public class Player : MonoBehaviour
 
     void ShootProjectile()
     {
-        // Shooting code
-        if (Input.GetKeyDown("a") ^ Input.GetKeyDown("d") ^ Input.GetKeyDown("s") ^ Input.GetKeyDown("w")) {
-            // Get the velocity (direction)
+        // Check if any of the shoot codes are being pressed
+        if (Input.GetKeyDown(KeyCode.A) ^ Input.GetKeyDown(KeyCode.D) ^ Input.GetKeyDown(KeyCode.S) ^ Input.GetKeyDown(KeyCode.W)) {
+
+            // Get the velocity (direction) of the bullet
             Vector2 velocity = new Vector2(0.0f, 0.0f);
-            if (Input.GetKeyDown("a")) {
+
+            if (Input.GetKeyDown(KeyCode.A)) {
                 velocity = new Vector2(settings.player.bulletSpeed * -1, 0.0f);
             }
-            if (Input.GetKeyDown("d")) {
+            if (Input.GetKeyDown(KeyCode.D)) {
                 velocity = new Vector2(settings.player.bulletSpeed, 0.0f);
             }
-            if (Input.GetKeyDown("w")) {
+            if (Input.GetKeyDown(KeyCode.W)) {
                 velocity = new Vector2(0.0f, settings.player.bulletSpeed);
             }
-            if (Input.GetKeyDown("s")) {
+            if (Input.GetKeyDown(KeyCode.S)) {
                 velocity = new Vector2(0.0f, settings.player.bulletSpeed * -1);
             }
 
             // Create new projectile
             GameObject projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.identity);
             Bullet bullet = projectile.GetComponent<Bullet>();
-            // Give new projective velocity
+
+            // Give new bullet the correct velocity
             bullet.velocity = velocity;
             bullet.shooter = gameObject;
+
             // Destory the new projectile after an X amount of time
             Destroy(projectile, BulletDestroyTime);
         }
@@ -139,19 +151,20 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        // Get the Player (not the Clone) cloneActive value
+        // Get the REAL Player's (not the Clone's) cloneActive value
         bool tempCloneActive = false;
         if (gameObject.name != "Player") {
-            // THIS current function is running from the Clone, so get the original Player's cloneActive value
+            // This current function is running from the Clone, so get the original Player's cloneActive value
             Player player = GameObject.Find("Player").GetComponent<Player>();
             tempCloneActive = player.cloneActive;
         } else {
-            // THIS current function is running from the Player, so just use its cloneActive value
+            // This current function is running from the Player, so just use its cloneActive value
             tempCloneActive = cloneActive;
         }
 
         // Check if the Clone is active, if true, destory it, if false, end the game
         if (tempCloneActive) {
+            // A clone is alive, so kill the clone object
             GameObject cloneObject = GameObject.Find("Player(Clone)");
             if (gameObject.name == "Player") {
                 // If the Player was collided with, kill the clone but move the Player to the clone's position
@@ -172,18 +185,22 @@ public class Player : MonoBehaviour
 
     void Clone()
     {
-        // This if stops the player from making multiple clones
-        // It also stops the clone from making more clones
+        // This if stops the player from making multiple clones. We only allow the original "Player" object to create clones
         if (cloneActive ^ gameObject.name != "Player") {
             return;
         }
+
+        // No clone is alive, so create a new one
         cloneActive = true;
         GameObject clone = Instantiate(gameObject, new Vector3(transform.position.x - 10f, transform.position.y, transform.position.z), Quaternion.identity);
+
+        // Destory the clone after an x amount of time
         StartCoroutine(DestoryClone(clone));
     }
 
     IEnumerator DestoryClone(GameObject clone)
     {
+        // Destroy the clone after x amount of time
         yield return new WaitForSeconds(settings.clone.duration);
         Destroy(clone);
         cloneActive = false;

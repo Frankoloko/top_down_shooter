@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Wave
 {
@@ -18,6 +19,8 @@ public class Game : MonoBehaviour
     public GameObject Enemy_Brown;
     public GameObject Enemy_Green;
     public List<GameObject> AllEnemies;
+    public int score = 0;
+    public Text scoreLabel;
 
     // static Random random = new Random();
     public System.Random random = new System.Random();
@@ -26,6 +29,8 @@ public class Game : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = false;
+        
         if (NoEnemies) {
             return;
         }
@@ -85,6 +90,8 @@ public class Game : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape)) {
             SceneManager.LoadScene("Menu");
         }
+
+        scoreLabel.text = score.ToString();
     }
 
     IEnumerator Endless()

@@ -1,12 +1,26 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+public interface E_BaseInterface
 {
-    public float health = 5f;
+    void GotHit();
+}
+
+public class E_BASE
+{
+    static Game game;
+    static Settings settings;
+    static Sound sound;
 
     void Start()
+    {
+        settings = GameObject.Find("Settings").GetComponent<Settings>();
+        game = GameObject.Find("Game").GetComponent<Game>();
+        sound = GameObject.Find("Sound").GetComponent<Sound>();
+    }
+    
+    static public void SpawnOutsideCamera(Transform transform)
     {
         // Get the camera's borders
         float maxCameraHeight = Camera.main.orthographicSize + 2;
@@ -43,5 +57,28 @@ public class EnemyBase : MonoBehaviour
 
         // Transform to outside of camera view
         transform.position = new Vector2(spawnWidth, spawnHeight);
+    }
+
+    static public void MoveTowardsPlayer(Transform transform, float movementSpeed)
+    {
+        GameObject player = GameObject.Find("Player");
+        transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
+    }
+
+    static public void BasicDamage(float health, GameObject enemy)
+    {
+        if (health == 1) {
+            // If it's health is 1, then it will die now
+            sound.PlayDestroy();
+            UnityEngine.Object.Destroy(enemy); // Exactly the same as Destroy()
+
+            // Increase the player's score by 1
+            game.score += 1;
+            settings.player.shootCooldown *= 0.9f;
+        } else {
+            // If its health is not 1, then it can take more hits
+            sound.PlayHit();
+            health = health - 1;
+        }
     }
 }

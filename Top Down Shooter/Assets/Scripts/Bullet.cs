@@ -8,11 +8,13 @@ public class Bullet : MonoBehaviour
     public GameObject shooter;
     Sound sound;
     Game game;
+    Settings settings;
 
     void Start() {
+        settings = GameObject.Find("Settings").GetComponent<Settings>();
         game = GameObject.Find("Game").GetComponent<Game>();
-
         sound = GameObject.Find("Sound").GetComponent<Sound>();
+        
         sound.PlayShoot();
     }
 
@@ -39,20 +41,8 @@ public class Bullet : MonoBehaviour
 
                     // Get the enemy's object so we can subtract health from it
                     GameObject enemyObject = GameObject.Find(other.name);
-                    EnemyBase enemy = enemyObject.GetComponent<EnemyBase>();
-
-                    if (enemy.health == 1) {
-                        // If it's health is 1, then it will die now
-                        sound.PlayDestroy();
-                        Destroy(enemyObject);
-
-                        // Increase the player's score by 1
-                        game.score += 1;
-                    } else {
-                        // If its health is not 1, then it can take more hits
-                        sound.PlayHit();
-                        enemy.health = enemy.health - 1;
-                    }
+                    E_BaseInterface enemy = enemyObject.GetComponent<E_BaseInterface>();
+                    enemy.GotHit();
                 }
             }
         }

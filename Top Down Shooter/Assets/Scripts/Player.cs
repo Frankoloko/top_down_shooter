@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     public float BulletDestroyTime = 5f;
     float moveBackFromScreenBorder = 0.5f;
     bool cloneActive = false;
+    bool shootOnCooldown = false;
 
     // public enum Ability1{Flash, Invisible, TimeStop}
     // public Ability1 ability1;
@@ -31,6 +32,10 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        // Get movement direction value
+        movement.x = Input.GetAxis("Horizontal");
+        movement.y = Input.GetAxis("Vertical");
+
         if (Input.GetKeyDown(KeyCode.E)) {
             Flash();
         } else if (Input.GetKeyDown(KeyCode.Q)) {
@@ -44,7 +49,7 @@ public class Player : MonoBehaviour
     void Flash()
     {
         // Up
-        if (animator.GetFloat("Vertical") > 0) {
+        if (movement.y == 1) {
             float new_y = transform.position.y + settings.flash.distance;
             if (new_y > maxCameraHeight) {
                 new_y = maxCameraHeight;
@@ -52,7 +57,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(transform.position.x, new_y);
         }
         // Down
-        if (animator.GetFloat("Vertical") < 0) {
+        if (movement.y == -1) {
             float new_y = transform.position.y - settings.flash.distance;
             if (new_y < maxCameraHeight * -1) {
                 new_y = maxCameraHeight * -1;
@@ -60,7 +65,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(transform.position.x, new_y);
         }
         // Right
-        if (animator.GetFloat("Horizontal") > 0) {
+        if (movement.x == 1) {
             float new_x = transform.position.x + settings.flash.distance;
             if (new_x > maxCameraWidth) {
                 new_x = maxCameraWidth;
@@ -68,7 +73,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(new_x, transform.position.y);
         }
         // Left
-        if (animator.GetFloat("Horizontal") < 0) {
+        if (movement.x == -1) {
             float new_x = transform.position.x - settings.flash.distance;
             if (new_x < maxCameraWidth * -1) {
                 new_x = maxCameraWidth * -1;
@@ -83,10 +88,6 @@ public class Player : MonoBehaviour
 
     void MovePlayer()
     {
-        // Get movement direction value
-        movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
-
         // Only do something if the player is actually giving movement input
         if (!(movement.x == 0 & movement.y == 0)) {
             // Normal sideways movement
@@ -117,22 +118,27 @@ public class Player : MonoBehaviour
 
     void ShootProjectile()
     {
+        // This is just a timer that delays the player form shooting bullets as fast as they can click
+        if (shootOnCooldown) {
+            return;
+        }
+
         // Check if any of the shoot codes are being pressed
-        if (Input.GetKeyDown(KeyCode.A) ^ Input.GetKeyDown(KeyCode.D) ^ Input.GetKeyDown(KeyCode.S) ^ Input.GetKeyDown(KeyCode.W)) {
+        if (Input.GetKey(KeyCode.A) ^ Input.GetKey(KeyCode.D) ^ Input.GetKey(KeyCode.S) ^ Input.GetKey(KeyCode.W)) {
 
             // Get the velocity (direction) of the bullet
             Vector2 velocity = new Vector2(0.0f, 0.0f);
 
-            if (Input.GetKeyDown(KeyCode.A)) {
+            if (Input.GetKey(KeyCode.A)) {
                 velocity = new Vector2(settings.player.bulletSpeed * -1, 0.0f);
             }
-            if (Input.GetKeyDown(KeyCode.D)) {
+            if (Input.GetKey(KeyCode.D)) {
                 velocity = new Vector2(settings.player.bulletSpeed, 0.0f);
             }
-            if (Input.GetKeyDown(KeyCode.W)) {
+            if (Input.GetKey(KeyCode.W)) {
                 velocity = new Vector2(0.0f, settings.player.bulletSpeed);
             }
-            if (Input.GetKeyDown(KeyCode.S)) {
+            if (Input.GetKey(KeyCode.S)) {
                 velocity = new Vector2(0.0f, settings.player.bulletSpeed * -1);
             }
 
@@ -144,9 +150,19 @@ public class Player : MonoBehaviour
             bullet.velocity = velocity;
             bullet.shooter = gameObject;
 
+            // Start the shoot timeout delay
+            shootOnCooldown = true;
+            StartCoroutine(ShootOffTimeout());
+
             // Destory the new projectile after an X amount of time
             Destroy(projectile, BulletDestroyTime);
         }
+    }
+
+    IEnumerator ShootOffTimeout()
+    {
+        yield return new WaitForSeconds(settings.player.shootCooldown);
+        shootOnCooldown = false;
     }
 
     void OnCollisionEnter2D(Collision2D collision)

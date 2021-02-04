@@ -12,10 +12,8 @@ GameObject:
   - component: {fileID: 6592668103737729231}
   - component: {fileID: 6592668103737729230}
   - component: {fileID: 6592668103737729229}
-  - component: {fileID: -3444594559452987482}
-  - component: {fileID: 5577645628646803959}
   m_Layer: 0
-  m_Name: Enemy_Red
+  m_Name: E_Divide_M
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ac7af904c1db74da7897ef4a90946726, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6b68a472502e6469b81f94d034285a2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -119,41 +117,16 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.06}
+  m_Offset: {x: 0, y: -0.05}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.36}
+    oldSize: {x: 0.16, y: 0.24}
     newSize: {x: 0.32, y: 0.36}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.17, y: 0.24}
+  m_Size: {x: 0.07, y: 0.12}
   m_EdgeRadius: 0
---- !u!114 &-3444594559452987482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6592668103737729217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 452548864646043e180bfb1a06509c26, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 10
---- !u!114 &5577645628646803959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6592668103737729217}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd2d038af173f451aa28daeec83ee4d9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

@@ -762,7 +762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -938,6 +938,8 @@ MonoBehaviour:
   - {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
   - {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
   - {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1, type: 3}
+  score: 0
+  scoreLabel: {fileID: 1934275844}
 --- !u!4 &1613897329
 Transform:
   m_ObjectHideFlags: 0
@@ -986,8 +988,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -792.1, y: 406}
-  m_SizeDelta: {x: 160.00015, y: 171.86368}
+  m_AnchoredPosition: {x: -278, y: 126}
+  m_SizeDelta: {x: 195.0635, y: 171.86368}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1934275844
 MonoBehaviour:
@@ -1010,7 +1012,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 100
+    m_FontSize: 50
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1062,8 +1064,7 @@ MonoBehaviour:
   player:
     bulletSpeed: 15
     movementSpeed: 7
-    shootCooldown: 7
-    score: 0
+    shootCooldown: 1
   enemies:
     movementSpeed: 7
   clone:

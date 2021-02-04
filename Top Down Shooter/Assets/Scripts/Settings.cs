@@ -8,7 +8,10 @@ public class Settings : MonoBehaviour
 
     [Header("General")]
     public Player player = new Player();
-    public Enemies enemies;
+    [Header("Enemies")]
+    public E_Divide e_Divide;
+    public E_Brown e_Brown;
+    public E_Green e_Green;
     [Header("Abilities")]
     public Clone clone;
     public Flash flash;
@@ -23,13 +26,34 @@ public class Settings : MonoBehaviour
         public float shootCooldown = 7f;
     }
 
+    // ENEMIES
+
     [System.Serializable]
-    public class Enemies
+    public class E_Divide
     {
-        public float movementSpeed = 7f;
+        public float L_MovementSpeed = 7f;
+        public float L_Health = 7f;
+        public float M_MovementSpeed = 7f;
+        public float M_Health = 7f;
+        public float S_MovementSpeed = 7f;
+        public float S_Health = 7f;
     }
 
-    // Ability classes, arrange the classes alphabetically
+    [System.Serializable]
+    public class E_Brown
+    {
+        public float movementSpeed = 7f;
+        public float health = 7f;
+    }
+
+    [System.Serializable]
+    public class E_Green
+    {
+        public float movementSpeed = 7f;
+        public float health = 7f;
+    }
+
+    // ABILITIES
 
     [System.Serializable]
     public class Clone

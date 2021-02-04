@@ -276,7 +276,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.5}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.52
 --- !u!1 &304588970
@@ -1063,16 +1063,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player:
     bulletSpeed: 15
-    movementSpeed: 7
+    movementSpeed: 8
     shootCooldown: 1
-  enemies:
-    movementSpeed: 7
+  e_Divide:
+    L_MovementSpeed: 3
+    L_Health: 10
+    M_MovementSpeed: 5
+    M_Health: 5
+    S_MovementSpeed: 7
+    S_Health: 2
+  e_Brown:
+    movementSpeed: 5
+    health: 4
+  e_Green:
+    movementSpeed: 4
+    health: 7
   clone:
     cooldown: 7
     duration: 10
   flash:
     cooldown: 7
-    distance: 7
+    distance: 15
 --- !u!4 &1939515190
 Transform:
   m_ObjectHideFlags: 0

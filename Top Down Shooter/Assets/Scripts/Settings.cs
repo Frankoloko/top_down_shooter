@@ -21,9 +21,9 @@ public class Settings : MonoBehaviour
     [System.Serializable]
     public class Player
     {
-        public float bulletSpeed = 7f;
-        public float movementSpeed = 7f;
-        public float shootCooldown = 7f;
+        public float bulletSpeed = 15f;
+        public float movementSpeed = 8f;
+        public float shootCooldown = 1f;
     }
 
     // ENEMIES
@@ -31,25 +31,25 @@ public class Settings : MonoBehaviour
     [System.Serializable]
     public class E_Divide
     {
-        public float L_MovementSpeed = 7f;
-        public float L_Health = 7f;
-        public float M_MovementSpeed = 7f;
-        public float M_Health = 7f;
+        public float L_MovementSpeed = 3f;
+        public float L_Health = 10f;
+        public float M_MovementSpeed = 5f;
+        public float M_Health = 5f;
         public float S_MovementSpeed = 7f;
-        public float S_Health = 7f;
+        public float S_Health = 2f;
     }
 
     [System.Serializable]
     public class E_Brown
     {
-        public float movementSpeed = 7f;
-        public float health = 7f;
+        public float movementSpeed = 5f;
+        public float health = 4f;
     }
 
     [System.Serializable]
     public class E_Green
     {
-        public float movementSpeed = 7f;
+        public float movementSpeed = 4f;
         public float health = 7f;
     }
 

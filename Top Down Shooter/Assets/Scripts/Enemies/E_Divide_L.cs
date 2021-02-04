@@ -5,22 +5,28 @@ using UnityEngine;
 public class E_Divide_L : MonoBehaviour, E_BaseInterface
 {
     Settings settings;
-    public float health;
+    float health;
 
     void Start()
     {
         settings = GameObject.Find("Settings").GetComponent<Settings>();
         health = settings.e_Divide.L_Health;
-        E_BASE.SpawnOutsideCamera(transform);
+
+        Transform temp = transform;
+        E_BASE.SpawnOutsideCamera(ref temp);
+        transform.position = temp.position;
     }
 
     void Update()
     {
-        E_BASE.MoveTowardsPlayer(transform, settings.e_Divide.L_MovementSpeed);
+        Transform temp = transform;
+        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Divide.L_MovementSpeed);
+        transform.position = temp.position;
     }
 
     public void GotHit()
     {
-        E_BASE.BasicDamage(health, gameObject);
+        GameObject temp = gameObject;
+        E_BASE.BasicDamage(ref health, ref temp);
     }
 }

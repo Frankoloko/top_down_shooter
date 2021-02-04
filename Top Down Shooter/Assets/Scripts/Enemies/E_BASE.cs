@@ -8,24 +8,13 @@ public interface E_BaseInterface
 }
 
 public class E_BASE
-{
-    static Game game;
-    static Settings settings;
-    static Sound sound;
-
-    void Start()
-    {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        game = GameObject.Find("Game").GetComponent<Game>();
-        sound = GameObject.Find("Sound").GetComponent<Sound>();
-    }
-    
-    static public void SpawnOutsideCamera(Transform transform)
+{    
+    static public void SpawnOutsideCamera(ref Transform transform)
     {
         // Get the camera's borders
         float maxCameraHeight = Camera.main.orthographicSize + 2;
         float maxCameraWidth = Camera.main.orthographicSize * Camera.main.aspect + 2;
-
+        
         // Create the spawn points (either outside the top border, or outside the side border)
         float spawnHeight = 0f;
         float spawnWidth = 0f;
@@ -59,14 +48,18 @@ public class E_BASE
         transform.position = new Vector2(spawnWidth, spawnHeight);
     }
 
-    static public void MoveTowardsPlayer(Transform transform, float movementSpeed)
+    static public void MoveTowardsPlayer(ref Transform transform, float movementSpeed)
     {
         GameObject player = GameObject.Find("Player");
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
     }
 
-    static public void BasicDamage(float health, GameObject enemy)
+    static public void BasicDamage(ref float health, ref GameObject enemy)
     {
+        Game game = GameObject.Find("Game").GetComponent<Game>();
+        Settings settings = GameObject.Find("Settings").GetComponent<Settings>();
+        Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
+
         if (health == 1) {
             // If it's health is 1, then it will die now
             sound.PlayDestroy();

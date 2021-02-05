@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
     void Flash()
     {
         // Up
-        if (movement.y == 1) {
+        if (Input.GetKey(KeyCode.UpArrow)) {
             float new_y = transform.position.y + settings.flash.distance;
             if (new_y > maxCameraHeight) {
                 new_y = maxCameraHeight;
@@ -57,7 +57,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(transform.position.x, new_y);
         }
         // Down
-        if (movement.y == -1) {
+        if (Input.GetKey(KeyCode.DownArrow)) {
             float new_y = transform.position.y - settings.flash.distance;
             if (new_y < maxCameraHeight * -1) {
                 new_y = maxCameraHeight * -1;
@@ -65,7 +65,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(transform.position.x, new_y);
         }
         // Right
-        if (movement.x == 1) {
+        if (Input.GetKey(KeyCode.RightArrow)) {
             float new_x = transform.position.x + settings.flash.distance;
             if (new_x > maxCameraWidth) {
                 new_x = maxCameraWidth;
@@ -73,7 +73,7 @@ public class Player : MonoBehaviour
             transform.position = new Vector2(new_x, transform.position.y);
         }
         // Left
-        if (movement.x == -1) {
+        if (Input.GetKey(KeyCode.LeftArrow)) {
             float new_x = transform.position.x - settings.flash.distance;
             if (new_x < maxCameraWidth * -1) {
                 new_x = maxCameraWidth * -1;

@@ -21,6 +21,7 @@ public class Game : MonoBehaviour
     public GameObject E_Divide_L;
     public GameObject E_Brown;
     public GameObject E_Green;
+    public GameObject E_Shoot;
     public List<GameObject> AllEnemies;
 
     // static Random random = new Random();
@@ -39,7 +40,7 @@ public class Game : MonoBehaviour
         }
 
         // Set up the all enemies list
-        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Brown, E_Green };
+        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Brown, E_Green, E_Shoot };
 
         // If endless mode, run the endless mode only
         if (EndlessMode) {

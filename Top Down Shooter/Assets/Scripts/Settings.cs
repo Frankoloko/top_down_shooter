@@ -12,6 +12,7 @@ public class Settings : MonoBehaviour
     public E_Divide e_Divide;
     public E_Brown e_Brown;
     public E_Green e_Green;
+    public E_Shoot e_Shoot;
     [Header("Abilities")]
     public Clone clone;
     public Flash flash;
@@ -48,6 +49,13 @@ public class Settings : MonoBehaviour
 
     [System.Serializable]
     public class E_Green
+    {
+        public float movementSpeed = 2f;
+        public float health = 15f;
+    }
+
+    [System.Serializable]
+    public class E_Shoot
     {
         public float movementSpeed = 2f;
         public float health = 15f;

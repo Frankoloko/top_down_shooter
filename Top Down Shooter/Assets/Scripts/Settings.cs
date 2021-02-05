@@ -32,25 +32,25 @@ public class Settings : MonoBehaviour
     public class E_Divide
     {
         public float L_MovementSpeed = 3f;
-        public float L_Health = 10f;
+        public float L_Health = 5f;
         public float M_MovementSpeed = 5f;
-        public float M_Health = 5f;
+        public float M_Health = 3f;
         public float S_MovementSpeed = 7f;
-        public float S_Health = 2f;
+        public float S_Health = 1f;
     }
 
     [System.Serializable]
     public class E_Brown
     {
         public float movementSpeed = 5f;
-        public float health = 4f;
+        public float health = 3f;
     }
 
     [System.Serializable]
     public class E_Green
     {
-        public float movementSpeed = 4f;
-        public float health = 7f;
+        public float movementSpeed = 2f;
+        public float health = 15f;
     }
 
     // ABILITIES
@@ -66,6 +66,6 @@ public class Settings : MonoBehaviour
     public class Flash
     {
         public float cooldown = 7f;
-        public float distance = 15f;
+        public float distance = 12f;
     }
 }

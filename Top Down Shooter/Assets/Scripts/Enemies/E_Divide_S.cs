@@ -11,10 +11,6 @@ public class E_Divide_S : MonoBehaviour, E_BaseInterface
     {
         settings = GameObject.Find("Settings").GetComponent<Settings>();
         health = settings.e_Divide.S_Health;
-
-        Transform temp = transform;
-        E_BASE.SpawnOutsideCamera(ref temp);
-        transform.position = temp.position;
     }
 
     void Update()

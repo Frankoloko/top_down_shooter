@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class E_Divide_L : MonoBehaviour, E_BaseInterface
 {
+    public GameObject e_Divide_M;
     Settings settings;
     float health;
 
@@ -27,6 +28,23 @@ public class E_Divide_L : MonoBehaviour, E_BaseInterface
     public void GotHit()
     {
         GameObject temp = gameObject;
-        E_BASE.BasicDamage(ref health, ref temp);
+        bool dead = E_BASE.BasicDamage(ref health, ref temp);
+
+        // If E_Divide_L dies, we need to spawn 2 of E_Divide_M
+        if (dead) {
+            GameObject created_enemy;
+            System.Guid newGuid;
+
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_M);
+            created_enemy.transform.position = transform.position + new Vector3(-2f, 2f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_M);
+            created_enemy.transform.position = transform.position + new Vector3(2f, -2f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+        }
     }
 }

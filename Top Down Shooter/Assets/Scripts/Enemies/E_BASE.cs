@@ -54,7 +54,7 @@ public class E_BASE
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
     }
 
-    static public void BasicDamage(ref float health, ref GameObject enemy)
+    static public bool BasicDamage(ref float health, ref GameObject enemy)
     {
         Game game = GameObject.Find("Game").GetComponent<Game>();
         Settings settings = GameObject.Find("Settings").GetComponent<Settings>();
@@ -68,10 +68,12 @@ public class E_BASE
             // Increase the player's score by 1
             game.score += 1;
             settings.player.shootCooldown *= 0.9f;
+            return true;
         } else {
             // If its health is not 1, then it can take more hits
             sound.PlayHit();
             health = health - 1;
+            return false;
         }
     }
 }

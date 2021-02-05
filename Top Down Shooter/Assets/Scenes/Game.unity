@@ -928,18 +928,16 @@ MonoBehaviour:
   NoEnemies: 0
   EndlessMode: 1
   NextWave: 1
-  Enemy_Red: {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1,
+  score: 0
+  scoreLabel: {fileID: 1934275844}
+  E_Divide_L: {fileID: 6592668103737729217, guid: 724f0830063404c10adaa540b83b9e95,
     type: 3}
-  Enemy_Brown: {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab,
-    type: 3}
-  Enemy_Green: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1,
-    type: 3}
+  E_Brown: {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
+  E_Green: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
   AllEnemies:
   - {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
   - {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
   - {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1, type: 3}
-  score: 0
-  scoreLabel: {fileID: 1934275844}
 --- !u!4 &1613897329
 Transform:
   m_ObjectHideFlags: 0
@@ -1067,23 +1065,23 @@ MonoBehaviour:
     shootCooldown: 1
   e_Divide:
     L_MovementSpeed: 3
-    L_Health: 10
+    L_Health: 5
     M_MovementSpeed: 5
-    M_Health: 5
+    M_Health: 3
     S_MovementSpeed: 7
-    S_Health: 2
+    S_Health: 1
   e_Brown:
     movementSpeed: 5
-    health: 4
+    health: 3
   e_Green:
-    movementSpeed: 4
-    health: 7
+    movementSpeed: 2
+    health: 15
   clone:
     cooldown: 7
     duration: 10
   flash:
     cooldown: 7
-    distance: 15
+    distance: 12
 --- !u!4 &1939515190
 Transform:
   m_ObjectHideFlags: 0

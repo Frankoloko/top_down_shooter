@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class E_Divide_M : MonoBehaviour, E_BaseInterface
 {
+    public GameObject e_Divide_S;
     Settings settings;
     float health;
 
@@ -11,10 +12,6 @@ public class E_Divide_M : MonoBehaviour, E_BaseInterface
     {
         settings = GameObject.Find("Settings").GetComponent<Settings>();
         health = settings.e_Divide.M_Health;
-
-        Transform temp = transform;
-        E_BASE.SpawnOutsideCamera(ref temp);
-        transform.position = temp.position;
     }
 
     void Update()
@@ -27,6 +24,33 @@ public class E_Divide_M : MonoBehaviour, E_BaseInterface
     public void GotHit()
     {
         GameObject temp = gameObject;
-        E_BASE.BasicDamage(ref health, ref temp);
+        bool dead = E_BASE.BasicDamage(ref health, ref temp);
+
+        // If E_Divide_L dies, we need to spawn 4 of E_Divide_S
+        if (dead) {
+            GameObject created_enemy;
+            System.Guid newGuid;
+
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_S);
+            created_enemy.transform.position = transform.position + new Vector3(0f, 0.5f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_S);
+            created_enemy.transform.position = transform.position + new Vector3(0f, -1.5f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_S);
+            created_enemy.transform.position = transform.position + new Vector3(1f, 0f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+            // Create new enemy
+            created_enemy = Instantiate(e_Divide_S);
+            created_enemy.transform.position = transform.position + new Vector3(-2.5f, 0f, 0f);
+            newGuid = System.Guid.NewGuid();
+            created_enemy.name += newGuid;
+        }
     }
 }

@@ -6,7 +6,13 @@ using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour
 {
-    // Update is called once per frame
+    Sound sound;
+
+    void Start()
+    {
+        sound = GameObject.Find("Sound").GetComponent<Sound>();
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.R)) {
@@ -19,6 +25,10 @@ public class Menu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q)) {
             // print(EventSystem.currentSelectedGameObject);
             print(EventSystem.current.currentSelectedGameObject.name == "o_Shoot");
+            sound.PlaySelected();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow) ^ Input.GetKeyDown(KeyCode.RightArrow) ^ Input.GetKeyDown(KeyCode.UpArrow) ^ Input.GetKeyDown(KeyCode.DownArrow)) {
+            sound.PlaySelect();
         }
     }
 }

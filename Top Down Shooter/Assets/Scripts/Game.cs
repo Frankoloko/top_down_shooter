@@ -15,21 +15,28 @@ public class Game : MonoBehaviour
     public FightMode fightMode;
     public int NextWave = 5;
     public GameObject E_Divide_L;
-    public GameObject E_Brown;
+    public GameObject E_Movement;
     public GameObject E_Green;
     public GameObject E_Shoot;
 
     [HideInInspector]
     public int score = 0;
     Text scoreLabel;
-    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Brown, E_Green, E_Shoot }
+    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Green, E_Shoot }
 
     List<GameObject> AllEnemies;
     System.Random random = new System.Random();
     List<Wave> waves;
 
+    void Awake() {
+        // This stops this GameObject from getting destroyed when the scene switches (so that the score is kept)
+        DontDestroyOnLoad(this.gameObject);
+    }
+
     void Start()
     {
+        GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
+
         GetObjects();
 
         // Turn the cursor off so that it isn't in the way
@@ -41,7 +48,7 @@ public class Game : MonoBehaviour
         }
 
         // Set up the all enemies list
-        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Brown, E_Green, E_Shoot };
+        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot };
 
         // If endless mode, run the endless mode only
         if (fightMode == FightMode.RandomEndless) {
@@ -57,8 +64,8 @@ public class Game : MonoBehaviour
             if (fightMode == FightMode.E_Divide_L) {
                 selected_enemy = E_Divide_L;
             }
-            if (fightMode == FightMode.E_Brown) {
-                selected_enemy = E_Brown;
+            if (fightMode == FightMode.E_Movement) {
+                selected_enemy = E_Movement;
             }
             if (fightMode == FightMode.E_Green) {
                 selected_enemy = E_Green;
@@ -103,7 +110,7 @@ public class Game : MonoBehaviour
             new Wave(){
                 spawn_time_seconds = 60,
                 spawn_order = new GameObject[]{
-                    E_Divide_L, E_Divide_L, E_Brown, E_Divide_L, E_Brown, E_Divide_L, E_Divide_L,E_Divide_L, E_Brown, E_Brown
+                    E_Divide_L, E_Divide_L, E_Movement, E_Divide_L, E_Movement, E_Divide_L, E_Divide_L,E_Divide_L, E_Movement, E_Movement
                 },
             }
         };
@@ -120,6 +127,16 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        // Check if the unlock popup is open (when it is open it pauses the game)
+        if (Time.timeScale == 0) {
+            // if (Input.anyKey) {
+            if (Input.GetKeyDown(KeyCode.R)) {
+                GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
+                Time.timeScale = 1;
+            }
+            return;
+        }
+
         if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             BalancingSettings.ResetStatics();
@@ -128,7 +145,6 @@ public class Game : MonoBehaviour
             SceneManager.LoadScene("Menu");
         }
 
-        
         scoreLabel.text = score.ToString();
     }
 

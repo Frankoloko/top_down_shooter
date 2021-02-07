@@ -40,6 +40,16 @@ public class E_Shoot : MonoBehaviour, E_BaseInterface
     public void GotHit()
     {
         GameObject temp = gameObject;
-        E_BASE.BasicDamage(ref health, ref temp);
+        bool dead =  E_BASE.BasicDamage(ref health, ref temp);
+
+        if (dead) {
+            if (!BalancingSettings.e_Shoot.firstKill) {
+                // First kill, unlock the unit
+                BalancingSettings.e_Shoot.firstKill = true;
+                GameObject.Find("UnlockPopup").transform.localScale = new Vector3(1f, 1f, 1f);
+                print(GameObject.Find("UnlockImage").GetComponent<UnityEngine.UI.Image>().sprite);
+                Time.timeScale = 0;
+            }
+        }
     }
 }

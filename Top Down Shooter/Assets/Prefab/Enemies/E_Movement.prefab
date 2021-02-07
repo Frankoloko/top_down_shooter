@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 6592668103737729229}
   - component: {fileID: 4846346731335378148}
   m_Layer: 0
-  m_Name: E_Brown
+  m_Name: E_Movement
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -140,6 +140,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6592668103737729217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9998fc2942a514405af80f703a654923, type: 3}
+  m_Script: {fileID: 11500000, guid: 1fff5b7a7003a46feb3b9136bdfd107b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

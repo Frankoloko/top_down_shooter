@@ -4,21 +4,17 @@ using UnityEngine;
 
 public class Sound: MonoBehaviour
 {
-    public AudioSource soundShoot;
-    public AudioSource soundHit;
     public AudioSource soundDestroy;
+    public AudioSource soundGameOver;
+    public AudioSource soundHit;
+    public AudioSource soundSelect;
+    public AudioSource soundSelected;
+    public AudioSource soundShoot;
     public AudioSource soundTeleport;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+    void Awake() {
+        // This stops this GameObject from getting destroyed when the scene switches (so that the sounds are still accessible)
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void PlayShoot()
@@ -39,5 +35,20 @@ public class Sound: MonoBehaviour
     public void PlayTeleport()
     {
         soundTeleport.Play();
+    }
+
+    public void PlayGameOver()
+    {
+        soundGameOver.Play();
+    }
+
+    public void PlaySelect()
+    {
+        soundSelect.Play();
+    }
+
+    public void PlaySelected()
+    {
+        soundSelected.Play();
     }
 }

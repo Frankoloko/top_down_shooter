@@ -11,7 +11,7 @@ public class BalancingSettings
     static public Player player = new Player();
     [Header("Enemies")]
     static public E_Divide e_Divide = new E_Divide();
-    static public E_Brown e_Brown = new E_Brown();
+    static public E_Movement e_Movement = new E_Movement();
     static public E_Green e_Green = new E_Green();
     static public E_Shoot e_Shoot = new E_Shoot();
     [Header("Abilities")]
@@ -22,7 +22,7 @@ public class BalancingSettings
     {
         player = new Player();
         e_Divide = new E_Divide();
-        e_Brown = new E_Brown();
+        e_Movement = new E_Movement();
         e_Green = new E_Green();
         e_Shoot = new E_Shoot();
         clone = new Clone();
@@ -37,8 +37,6 @@ public class BalancingSettings
         public float bulletSpeed = 15f;
         public float movementSpeed = 8f;
         public float shootCooldown = 1f;
-        public bool unlockedMovement = false;
-        public bool unlockedShooting = false;
     }
 
     // ENEMIES
@@ -52,13 +50,16 @@ public class BalancingSettings
         public float M_Health = 2f;
         public float S_MovementSpeed = 7f;
         public float S_Health = 1f;
+        public int killCounter = 8;
+        public bool firstKill = false;
     }
 
     [System.Serializable]
-    public class E_Brown
+    public class E_Movement
     {
         public float movementSpeed = 5f;
         public float health = 3f;
+        public bool firstKill = false;
     }
 
     [System.Serializable]
@@ -66,6 +67,7 @@ public class BalancingSettings
     {
         public float movementSpeed = 2f;
         public float health = 15f;
+        public bool firstKill = false;
     }
 
     [System.Serializable]
@@ -75,6 +77,7 @@ public class BalancingSettings
         public float health = 2f;
         public float bulletSpeed = 15f;
         public float shotDelay = 3f;
+        public bool firstKill = false;
     }
 
     // ABILITIES
@@ -82,7 +85,6 @@ public class BalancingSettings
     [System.Serializable]
     public class Clone
     {
-        public bool unlocked = false;
         public float cooldown = 7f;
         public float duration = 10f;
     }
@@ -90,7 +92,6 @@ public class BalancingSettings
     [System.Serializable]
     public class Flash
     {
-        public bool unlocked = false;
         public float cooldown = 7f;
         public float distance = 10f;
     }

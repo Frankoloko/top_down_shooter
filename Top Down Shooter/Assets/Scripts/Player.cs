@@ -17,8 +17,12 @@ public class Player : MonoBehaviour
     bool cloneActive = false;
     bool shootOnCooldown = false;
 
+    Sound sound;
+
     void Start()
     {
+        sound = GameObject.Find("Sound").GetComponent<Sound>();
+
         maxCameraHeight = Camera.main.orthographicSize - moveBackFromScreenBorder;
         maxCameraWidth = Camera.main.orthographicSize * Camera.main.aspect - moveBackFromScreenBorder;
     }
@@ -75,7 +79,6 @@ public class Player : MonoBehaviour
         }
 
         // Play teleport sound
-        Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
         sound.PlayTeleport();
     }
 
@@ -183,6 +186,7 @@ public class Player : MonoBehaviour
             }
         } else {
             // No clone alive so just end the game
+            sound.PlayGameOver(); // Doesn't play because the object gets destroyed when the scene ends
             SceneManager.LoadScene("Menu");
         }
     }

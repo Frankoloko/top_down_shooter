@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class E_Shoot_Bullet : MonoBehaviour
 {
     public Vector2 velocity = new Vector2(0.0f, 0.0f);
     public GameObject shooter;
@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
     void Update() {
         // Get the bullet's current position and new position (next frame position)
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-        Vector2 newPosition = currentPosition + velocity * Time.deltaTime;
+        Vector2 newPosition = currentPosition + velocity * BalancingSettings.e_Shoot.bulletSpeed * Time.deltaTime;
 
         // Cast a ray between the current position and the new position, and check if there are any objects it runs in to
         RaycastHit2D[] hits = Physics2D.LinecastAll(currentPosition, newPosition);
@@ -32,19 +32,22 @@ public class Bullet : MonoBehaviour
             if (other != shooter) {
 
                 // If the object is tagged enemy
-                if (other.CompareTag("Enemy")) {
+                if (other.CompareTag("Player")) {
                     
                     // Destory the bullet it self
                     Destroy(gameObject);
 
                     // Get the enemy's object so we can subtract health from it
-                    GameObject enemyObject = GameObject.Find(other.name);
-                    E_BaseInterface enemy = enemyObject.GetComponent<E_BaseInterface>();
-                    enemy.GotHit();
+                    GameObject playerObject = GameObject.Find(other.name);
+                    Destroy(playerObject);
+                    // E_BaseInterface enemy = enemyObject.GetComponent<E_BaseInterface>();
+                    // enemy.GotHit();
                 }
             }
         }
 
         transform.position = newPosition;
     }
+
+    
 }

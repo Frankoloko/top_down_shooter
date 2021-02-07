@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class E_Green : MonoBehaviour, E_BaseInterface
 {
-    Settings settings;
     float health;
 
     void Start()
     {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        health = settings.e_Green.health;
+        health = BalancingSettings.e_Green.health;
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
@@ -20,7 +18,7 @@ public class E_Green : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Green.movementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Green.movementSpeed);
         transform.position = temp.position;
     }
 

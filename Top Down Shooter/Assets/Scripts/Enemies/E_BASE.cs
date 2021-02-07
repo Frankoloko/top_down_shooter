@@ -57,7 +57,6 @@ public class E_BASE
     static public bool BasicDamage(ref float health, ref GameObject enemy)
     {
         Game game = GameObject.Find("Game").GetComponent<Game>();
-        Settings settings = GameObject.Find("Settings").GetComponent<Settings>();
         Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
 
         if (health == 1) {
@@ -67,7 +66,7 @@ public class E_BASE
 
             // Increase the player's score by 1
             game.score += 1;
-            settings.player.shootCooldown *= 0.9f;
+            BalancingSettings.player.shootCooldown *= 0.9f;
             return true;
         } else {
             // If its health is not 1, then it can take more hits

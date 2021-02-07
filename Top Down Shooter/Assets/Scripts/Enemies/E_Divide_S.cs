@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class E_Divide_S : MonoBehaviour, E_BaseInterface
 {
-    Settings settings;
     float health;
 
     void Start()
     {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        health = settings.e_Divide.S_Health;
+        health = BalancingSettings.e_Divide.S_Health;
     }
 
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Divide.S_MovementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Divide.S_MovementSpeed);
         transform.position = temp.position;
     }
 

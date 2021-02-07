@@ -5,31 +5,35 @@ using UnityEngine;
 public class E_Shoot : MonoBehaviour, E_BaseInterface
 {
     public GameObject bulletPrefab;
-    Settings settings;
     float health;
+    GameObject player;
 
     void Start()
     {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        health = settings.e_Shoot.health;
+        health = BalancingSettings.e_Shoot.health;
+        player = GameObject.Find("Player");
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
         transform.position = temp.position;
 
-        GameObject created_bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
-        Bullet bullet = created_bullet.GetComponent<Bullet>();
-        bullet.shooter = gameObject;
+        InvokeRepeating("ShootBullet", 0f, BalancingSettings.e_Shoot.shotDelay);
+    }
 
-        // Give new bullet the correct velocity
-        GameObject player = GameObject.Find("Player");
-        bullet.velocity = player.transform.position;
+    void ShootBullet()
+    {
+        // Create new projectile
+        GameObject created_bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        E_Shoot_Bullet bullet = created_bullet.GetComponent<E_Shoot_Bullet>();
+        Vector2 velocity = player.transform.position - transform.position;
+        bullet.velocity = velocity.normalized;
+        bullet.shooter = gameObject;
     }
 
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Shoot.movementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Shoot.movementSpeed);
         transform.position = temp.position;
     }
 

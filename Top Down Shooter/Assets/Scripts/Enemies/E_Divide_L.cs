@@ -5,13 +5,11 @@ using UnityEngine;
 public class E_Divide_L : MonoBehaviour, E_BaseInterface
 {
     public GameObject e_Divide_M;
-    Settings settings;
     float health;
 
     void Start()
     {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        health = settings.e_Divide.L_Health;
+        health = BalancingSettings.e_Divide.L_Health;
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
@@ -21,7 +19,7 @@ public class E_Divide_L : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Divide.L_MovementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Divide.L_MovementSpeed);
         transform.position = temp.position;
     }
 

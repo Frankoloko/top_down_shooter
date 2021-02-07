@@ -925,8 +925,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb260fdc0e4a4ee5b0abda90e458d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NoEnemies: 0
-  EndlessMode: 1
+  fightMode: 6
   NextWave: 1
   score: 0
   scoreLabel: {fileID: 1934275844}
@@ -934,10 +933,9 @@ MonoBehaviour:
     type: 3}
   E_Brown: {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
   E_Green: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
+  E_Shoot: {fileID: 6592668103737729217, guid: 69468a9e6546c4fbc90c6504be71e65d, type: 3}
   AllEnemies:
-  - {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab, type: 3}
-  - {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
-  - {fileID: 6592668103737729217, guid: a6938073b12054930a99203d966473c1, type: 3}
+  - {fileID: 6592668103737729217, guid: 69468a9e6546c4fbc90c6504be71e65d, type: 3}
 --- !u!4 &1613897329
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,6 +1074,11 @@ MonoBehaviour:
   e_Green:
     movementSpeed: 2
     health: 15
+  e_Shoot:
+    movementSpeed: 2
+    health: 15
+    bulletSpeed: 0.5
+    shotDelay: 15
   clone:
     cooldown: 7
     duration: 10

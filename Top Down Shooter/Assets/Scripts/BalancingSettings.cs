@@ -2,20 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Settings : MonoBehaviour
+public class BalancingSettings
 {
     // Inspector arrangement
 
+    // NOTE: Whatever you add here, you also need to add in the restart of the scene (Menu.cs)
     [Header("General")]
-    public Player player = new Player();
+    static public Player player = new Player();
     [Header("Enemies")]
-    public E_Divide e_Divide;
-    public E_Brown e_Brown;
-    public E_Green e_Green;
-    public E_Shoot e_Shoot;
+    static public E_Divide e_Divide = new E_Divide();
+    static public E_Brown e_Brown = new E_Brown();
+    static public E_Green e_Green = new E_Green();
+    static public E_Shoot e_Shoot = new E_Shoot();
     [Header("Abilities")]
-    public Clone clone;
-    public Flash flash;
+    static public Clone clone = new Clone();
+    static public Flash flash = new Flash();
+
+    static public void ResetStatics()
+    {
+        player = new Player();
+        e_Divide = new E_Divide();
+        e_Brown = new E_Brown();
+        e_Green = new E_Green();
+        e_Shoot = new E_Shoot();
+        clone = new Clone();
+        flash = new Flash();
+    }
 
     // General classes
 
@@ -58,7 +70,9 @@ public class Settings : MonoBehaviour
     public class E_Shoot
     {
         public float movementSpeed = 2f;
-        public float health = 15f;
+        public float health = 2f;
+        public float bulletSpeed = 15f;
+        public float shotDelay = 3f;
     }
 
     // ABILITIES

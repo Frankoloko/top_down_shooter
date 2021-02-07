@@ -12,30 +12,31 @@ public class Wave
 
 public class Game : MonoBehaviour
 {
-    public bool NoEnemies = false;
-    public bool EndlessMode = false;
+    public FightMode fightMode;
     public int NextWave = 5;
-    public int score = 0;
-    public Text scoreLabel;
-
     public GameObject E_Divide_L;
     public GameObject E_Brown;
     public GameObject E_Green;
     public GameObject E_Shoot;
-    public List<GameObject> AllEnemies;
 
-    // static Random random = new Random();
-    public System.Random random = new System.Random();
+    [HideInInspector]
+    public int score = 0;
+    Text scoreLabel;
+    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Brown, E_Green, E_Shoot }
 
-    private List<Wave> waves;
+    List<GameObject> AllEnemies;
+    System.Random random = new System.Random();
+    List<Wave> waves;
 
     void Start()
     {
+        GetObjects();
+
         // Turn the cursor off so that it isn't in the way
         Cursor.visible = false;
         
         // If no enemies, just stop the code
-        if (NoEnemies) {
+        if (fightMode == FightMode.NoEnemies) {
             return;
         }
 
@@ -43,8 +44,30 @@ public class Game : MonoBehaviour
         AllEnemies = new List<GameObject>(){ E_Divide_L, E_Brown, E_Green, E_Shoot };
 
         // If endless mode, run the endless mode only
-        if (EndlessMode) {
+        if (fightMode == FightMode.RandomEndless) {
             StartCoroutine(Endless());
+            return;
+        }
+
+        // If not waves mode either, then an enemy was selected, so spawn that enemy endlessly
+        if (fightMode != FightMode.Waves) {
+            GameObject selected_enemy = null;
+
+            // Assign the selected enemy
+            if (fightMode == FightMode.E_Divide_L) {
+                selected_enemy = E_Divide_L;
+            }
+            if (fightMode == FightMode.E_Brown) {
+                selected_enemy = E_Brown;
+            }
+            if (fightMode == FightMode.E_Green) {
+                selected_enemy = E_Green;
+            }
+            if (fightMode == FightMode.E_Shoot) {
+                selected_enemy = E_Shoot;
+            }
+
+            StartCoroutine(Endless(selected_enemy));
             return;
         }
 
@@ -60,6 +83,11 @@ public class Game : MonoBehaviour
             StartCoroutine(SpawnEnemy(item, total));
             total += spawn_increment_seconds;
         }
+    }
+
+    void GetObjects()
+    {
+        scoreLabel = GameObject.Find("Score").GetComponent<Text>();
     }
 
     void SetupLists()
@@ -94,15 +122,17 @@ public class Game : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            BalancingSettings.ResetStatics();
         }
         if (Input.GetKeyDown(KeyCode.Escape)) {
             SceneManager.LoadScene("Menu");
         }
 
+        
         scoreLabel.text = score.ToString();
     }
 
-    IEnumerator Endless()
+    IEnumerator Endless(GameObject selected_enemy = null)
     {
         // In endless mode we start by creating an enemy every 4 seconds
         // With every enemy created we decrease the create time
@@ -110,9 +140,17 @@ public class Game : MonoBehaviour
         float spawn_increment_seconds = 4;
         while (spawn_increment_seconds > 0)
         {
-            // Create a random enemy
-            GameObject randomEnemy = AllEnemies[random.Next(AllEnemies.Count)];
-            GameObject enemy = Instantiate(randomEnemy);
+            GameObject createEnemy;
+            if (selected_enemy) {
+                // Enemy selected, use it
+                createEnemy = selected_enemy;
+            } else {
+                // No enemy selected, create a random enemy
+                createEnemy = AllEnemies[random.Next(AllEnemies.Count)];
+            }
+
+            // Create the enemy and give it a unique name
+            GameObject enemy = Instantiate(createEnemy);
             enemy.name = enemy.name + spawn_increment_seconds;
 
             // Wait the code

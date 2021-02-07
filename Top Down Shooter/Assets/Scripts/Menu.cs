@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene("Game");
+            BalancingSettings.ResetStatics();
         }
         if (Input.GetKeyDown(KeyCode.Escape)) {
             Application.Quit();

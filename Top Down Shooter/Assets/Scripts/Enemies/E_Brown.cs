@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class E_Brown : MonoBehaviour, E_BaseInterface
 {
-    Settings settings;
     float health;
 
     void Start()
     {
-        settings = GameObject.Find("Settings").GetComponent<Settings>();
-        health = settings.e_Brown.health;
+        health = BalancingSettings.e_Brown.health;
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
@@ -20,7 +18,7 @@ public class E_Brown : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, settings.e_Brown.movementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Brown.movementSpeed);
         transform.position = temp.position;
     }
 

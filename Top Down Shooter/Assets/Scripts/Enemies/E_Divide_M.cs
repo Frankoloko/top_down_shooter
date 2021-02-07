@@ -22,7 +22,7 @@ public class E_Divide_M : MonoBehaviour, E_BaseInterface
     public void GotHit()
     {
         GameObject temp = gameObject;
-        bool dead = E_BASE.BasicDamage(ref health, ref temp);
+        bool dead = E_BASE.BasicDamage(ref health, ref temp, false);
 
         // If E_Divide_L dies, we need to spawn 4 of E_Divide_S
         if (dead) {

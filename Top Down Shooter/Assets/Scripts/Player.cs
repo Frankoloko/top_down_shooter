@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public new Rigidbody2D rigidbody;
-    public Animator animator;
     public GameObject ProjectilePrefab;
     float maxCameraHeight;
     float maxCameraWidth;
@@ -102,11 +101,6 @@ public class Player : MonoBehaviour
             }
 
             rigidbody.MovePosition(newPosition);
-
-            // Animation direction setting
-            animator.SetFloat("Vertical", movement.y);
-            animator.SetFloat("Horizontal", movement.x);
-            animator.SetFloat("Speed", movement.sqrMagnitude);
         }
     }
 

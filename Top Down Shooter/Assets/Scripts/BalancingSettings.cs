@@ -37,6 +37,8 @@ public class BalancingSettings
         public float bulletSpeed = 15f;
         public float movementSpeed = 8f;
         public float shootCooldown = 1f;
+        public bool unlockedMovement = false;
+        public bool unlockedShooting = false;
     }
 
     // ENEMIES
@@ -45,9 +47,9 @@ public class BalancingSettings
     public class E_Divide
     {
         public float L_MovementSpeed = 3f;
-        public float L_Health = 5f;
+        public float L_Health = 4f;
         public float M_MovementSpeed = 5f;
-        public float M_Health = 3f;
+        public float M_Health = 2f;
         public float S_MovementSpeed = 7f;
         public float S_Health = 1f;
     }
@@ -80,6 +82,7 @@ public class BalancingSettings
     [System.Serializable]
     public class Clone
     {
+        public bool unlocked = false;
         public float cooldown = 7f;
         public float duration = 10f;
     }
@@ -87,7 +90,8 @@ public class BalancingSettings
     [System.Serializable]
     public class Flash
     {
+        public bool unlocked = false;
         public float cooldown = 7f;
-        public float distance = 12f;
+        public float distance = 10f;
     }
 }

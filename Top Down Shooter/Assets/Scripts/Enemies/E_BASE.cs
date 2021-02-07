@@ -54,7 +54,7 @@ public class E_BASE
         transform.position = Vector2.MoveTowards(transform.position, player.transform.position, movementSpeed * Time.deltaTime);
     }
 
-    static public bool BasicDamage(ref float health, ref GameObject enemy)
+    static public bool BasicDamage(ref float health, ref GameObject enemy, bool increaseScore = true)
     {
         Game game = GameObject.Find("Game").GetComponent<Game>();
         Sound sound = GameObject.Find("Sound").GetComponent<Sound>();
@@ -65,8 +65,10 @@ public class E_BASE
             UnityEngine.Object.Destroy(enemy); // Exactly the same as Destroy()
 
             // Increase the player's score by 1
-            game.score += 1;
-            BalancingSettings.player.shootCooldown *= 0.9f;
+            if (increaseScore) {
+                game.score += 1;
+                BalancingSettings.player.shootCooldown *= 0.9f;
+            }
             return true;
         } else {
             // If its health is not 1, then it can take more hits

@@ -9,7 +9,7 @@ public class E_Divide_L : MonoBehaviour, E_BaseInterface
 
     void Start()
     {
-        health = BalancingSettings.e_Divide.L_Health;
+        health = Settings.e_Divide.L_Health;
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
@@ -19,7 +19,7 @@ public class E_Divide_L : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Divide.L_MovementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, Settings.e_Divide.L_MovementSpeed);
         transform.position = temp.position;
     }
 

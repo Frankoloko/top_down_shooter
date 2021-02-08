@@ -9,13 +9,13 @@ public class E_Divide_M : MonoBehaviour, E_BaseInterface
 
     void Start()
     {
-        health = BalancingSettings.e_Divide.M_Health;
+        health = Settings.e_Divide.M_Health;
     }
 
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Divide.M_MovementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, Settings.e_Divide.M_MovementSpeed);
         transform.position = temp.position;
     }
 

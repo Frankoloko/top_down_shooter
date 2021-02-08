@@ -19,7 +19,7 @@ public class E_Shoot_Bullet : MonoBehaviour
     void Update() {
         // Get the bullet's current position and new position (next frame position)
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
-        Vector2 newPosition = currentPosition + velocity * BalancingSettings.e_Shoot.bulletSpeed * Time.deltaTime;
+        Vector2 newPosition = currentPosition + velocity * Settings.e_Shoot.bulletSpeed * Time.deltaTime;
 
         // Cast a ray between the current position and the new position, and check if there are any objects it runs in to
         RaycastHit2D[] hits = Physics2D.LinecastAll(currentPosition, newPosition);

@@ -13,7 +13,6 @@ public class Wave
 public class Game : MonoBehaviour
 {
     public FightMode fightMode;
-    public int NextWave = 5;
     public GameObject E_Divide_L;
     public GameObject E_Movement;
     public GameObject E_Green;
@@ -28,16 +27,10 @@ public class Game : MonoBehaviour
     System.Random random = new System.Random();
     List<Wave> waves;
 
-    void Awake() {
-        // This stops this GameObject from getting destroyed when the scene switches (so that the score is kept)
-        DontDestroyOnLoad(this.gameObject);
-    }
-
     void Start()
     {
         GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
-
-        GetObjects();
+        scoreLabel = GameObject.Find("Score").GetComponent<Text>();
 
         // Turn the cursor off so that it isn't in the way
         Cursor.visible = false;
@@ -47,7 +40,7 @@ public class Game : MonoBehaviour
             return;
         }
 
-        // Set up the all enemies list
+        // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
         AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot };
 
         // If endless mode, run the endless mode only
@@ -82,19 +75,14 @@ public class Game : MonoBehaviour
         SetupLists();
 
         // This gets the increments that enemies will spawn at
-        float spawn_increment_seconds = waves[NextWave].spawn_time_seconds / waves[NextWave].spawn_order.Length;
+        float spawn_increment_seconds = waves[Settings.progress.nextWave].spawn_time_seconds / waves[Settings.progress.nextWave].spawn_order.Length;
         
         // Here we start StartCoroutine instances, all at the start time, but in the SpawnEnemy we wait X amount of time before creating the enemies
         float total = 0;
-        foreach (GameObject item in waves[NextWave].spawn_order) {
+        foreach (GameObject item in waves[Settings.progress.nextWave].spawn_order) {
             StartCoroutine(SpawnEnemy(item, total));
             total += spawn_increment_seconds;
         }
-    }
-
-    void GetObjects()
-    {
-        scoreLabel = GameObject.Find("Score").GetComponent<Text>();
     }
 
     void SetupLists()
@@ -102,9 +90,9 @@ public class Game : MonoBehaviour
         // Set up the wave lists
         waves = new List<Wave>(){
             new Wave(){
-                spawn_time_seconds = 30,
+                spawn_time_seconds = 10,
                 spawn_order = new GameObject[]{
-                    E_Divide_L, E_Divide_L, E_Divide_L
+                    E_Movement, E_Movement, E_Movement
                 },
             },
             new Wave(){
@@ -127,25 +115,33 @@ public class Game : MonoBehaviour
 
     void Update()
     {
-        // Check if the unlock popup is open (when it is open it pauses the game)
+        // Unlock popup: Check if the unlock popup is open (when it is open it pauses the game)
         if (Time.timeScale == 0) {
-            // if (Input.anyKey) {
-            if (Input.GetKeyDown(KeyCode.R)) {
+            // if (Input.anyKey) { // This is not working because it triggers since the player is already pressing a direction to shoot/move
+            if (Input.GetKeyDown(KeyCode.Return)) {
                 GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
                 Time.timeScale = 1;
             }
             return;
         }
-
+        // R: Reset game
         if (Input.GetKeyDown(KeyCode.R)) {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            BalancingSettings.ResetStatics();
+            Settings.ResetStatics();
         }
+        // ESC: Quit game
         if (Input.GetKeyDown(KeyCode.Escape)) {
             SceneManager.LoadScene("Menu");
         }
-
+        // Update score label
         scoreLabel.text = score.ToString();
+        // Check if wave is finished
+        if (fightMode == FightMode.Waves) {
+            if (score == waves[Settings.progress.nextWave].spawn_order.Length) {
+                SceneManager.LoadScene("Menu");
+                Settings.progress.nextWave += 1;
+            }
+        }
     }
 
     IEnumerator Endless(GameObject selected_enemy = null)

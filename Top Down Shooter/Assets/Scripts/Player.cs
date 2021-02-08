@@ -33,10 +33,21 @@ public class Player : MonoBehaviour
         movement.x = Input.GetAxis("Horizontal");
         movement.y = Input.GetAxis("Vertical");
 
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            if (Settings.progress.q_Ability == "Divide") {
+                Clone();    
+            }
+            if (Settings.progress.q_Ability == "Flash") {
+                Flash();    
+            }
+        }
         if (Input.GetKeyDown(KeyCode.E)) {
-            Flash();
-        } else if (Input.GetKeyDown(KeyCode.Q)) {
-            Clone();
+            if (Settings.progress.e_Ability == "Divide") {
+                Clone();    
+            }
+            if (Settings.progress.e_Ability == "Flash") {
+                Flash();
+            }
         }
 
         MovePlayer();
@@ -47,7 +58,7 @@ public class Player : MonoBehaviour
     {
         // Up
         if (Input.GetKey(KeyCode.UpArrow)) {
-            float new_y = transform.position.y + BalancingSettings.flash.distance;
+            float new_y = transform.position.y + Settings.flash.distance;
             if (new_y > maxCameraHeight) {
                 new_y = maxCameraHeight;
             }
@@ -55,7 +66,7 @@ public class Player : MonoBehaviour
         }
         // Down
         if (Input.GetKey(KeyCode.DownArrow)) {
-            float new_y = transform.position.y - BalancingSettings.flash.distance;
+            float new_y = transform.position.y - Settings.flash.distance;
             if (new_y < maxCameraHeight * -1) {
                 new_y = maxCameraHeight * -1;
             }
@@ -63,7 +74,7 @@ public class Player : MonoBehaviour
         }
         // Right
         if (Input.GetKey(KeyCode.RightArrow)) {
-            float new_x = transform.position.x + BalancingSettings.flash.distance;
+            float new_x = transform.position.x + Settings.flash.distance;
             if (new_x > maxCameraWidth) {
                 new_x = maxCameraWidth;
             }
@@ -71,7 +82,7 @@ public class Player : MonoBehaviour
         }
         // Left
         if (Input.GetKey(KeyCode.LeftArrow)) {
-            float new_x = transform.position.x - BalancingSettings.flash.distance;
+            float new_x = transform.position.x - Settings.flash.distance;
             if (new_x < maxCameraWidth * -1) {
                 new_x = maxCameraWidth * -1;
             }
@@ -87,7 +98,7 @@ public class Player : MonoBehaviour
         // Only do something if the player is actually giving movement input
         if (!(movement.x == 0 & movement.y == 0)) {
             // Normal sideways movement
-            Vector2 newPosition = rigidbody.position + movement * BalancingSettings.player.movementSpeed * Time.fixedDeltaTime;
+            Vector2 newPosition = rigidbody.position + movement * Settings.player.movementSpeed * Time.fixedDeltaTime;
 
             // Only move the player if they aren't outside the camera borders
             if (newPosition[1] > maxCameraHeight) {
@@ -121,16 +132,16 @@ public class Player : MonoBehaviour
             Vector2 velocity = new Vector2(0.0f, 0.0f);
 
             if (Input.GetKey(KeyCode.A)) {
-                velocity = new Vector2(BalancingSettings.player.bulletSpeed * -1, 0.0f);
+                velocity = new Vector2(Settings.player.bulletSpeed * -1, 0.0f);
             }
             if (Input.GetKey(KeyCode.D)) {
-                velocity = new Vector2(BalancingSettings.player.bulletSpeed, 0.0f);
+                velocity = new Vector2(Settings.player.bulletSpeed, 0.0f);
             }
             if (Input.GetKey(KeyCode.W)) {
-                velocity = new Vector2(0.0f, BalancingSettings.player.bulletSpeed);
+                velocity = new Vector2(0.0f, Settings.player.bulletSpeed);
             }
             if (Input.GetKey(KeyCode.S)) {
-                velocity = new Vector2(0.0f, BalancingSettings.player.bulletSpeed * -1);
+                velocity = new Vector2(0.0f, Settings.player.bulletSpeed * -1);
             }
 
             // Create new projectile
@@ -152,7 +163,7 @@ public class Player : MonoBehaviour
 
     IEnumerator ShootOffTimeout()
     {
-        yield return new WaitForSeconds(BalancingSettings.player.shootCooldown);
+        yield return new WaitForSeconds(Settings.player.shootCooldown);
         shootOnCooldown = false;
     }
 
@@ -209,7 +220,7 @@ public class Player : MonoBehaviour
     IEnumerator DestoryClone(GameObject clone)
     {
         // Destroy the clone after x amount of time
-        yield return new WaitForSeconds(BalancingSettings.clone.duration);
+        yield return new WaitForSeconds(Settings.clone.duration);
         Destroy(clone);
         cloneActive = false;
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class E_Shoot : MonoBehaviour, E_BaseInterface
 {
@@ -10,14 +11,14 @@ public class E_Shoot : MonoBehaviour, E_BaseInterface
 
     void Start()
     {
-        health = BalancingSettings.e_Shoot.health;
+        health = Settings.e_Shoot.health;
         player = GameObject.Find("Player");
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
         transform.position = temp.position;
 
-        InvokeRepeating("ShootBullet", 0f, BalancingSettings.e_Shoot.shotDelay);
+        InvokeRepeating("ShootBullet", 0f, Settings.e_Shoot.shotDelay);
     }
 
     void ShootBullet()
@@ -33,7 +34,7 @@ public class E_Shoot : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Shoot.movementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, Settings.e_Shoot.movementSpeed);
         transform.position = temp.position;
     }
 
@@ -43,11 +44,12 @@ public class E_Shoot : MonoBehaviour, E_BaseInterface
         bool dead =  E_BASE.BasicDamage(ref health, ref temp);
 
         if (dead) {
-            if (!BalancingSettings.e_Shoot.firstKill) {
+            if (!Settings.progress.e_Shoot_FirstKill) {
                 // First kill, unlock the unit
-                BalancingSettings.e_Shoot.firstKill = true;
+                Settings.progress.e_Shoot_FirstKill = true;
                 GameObject.Find("UnlockPopup").transform.localScale = new Vector3(1f, 1f, 1f);
-                print(GameObject.Find("UnlockImage").GetComponent<UnityEngine.UI.Image>().sprite);
+                Sprite sprite = Resources.Load<Sprite>("Enemies/E_Shoot");
+                GameObject.Find("UnlockImage").GetComponent<Image>().sprite = sprite;
                 Time.timeScale = 0;
             }
         }

@@ -67,7 +67,7 @@ public class E_BASE
             // Increase the player's score by 1
             if (increaseScore) {
                 game.score += 1;
-                BalancingSettings.player.shootCooldown *= 0.9f;
+                Settings.player.shootCooldown *= 0.9f;
             }
             return true;
         } else {

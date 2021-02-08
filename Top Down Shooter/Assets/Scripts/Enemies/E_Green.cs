@@ -8,7 +8,7 @@ public class E_Green : MonoBehaviour, E_BaseInterface
 
     void Start()
     {
-        health = BalancingSettings.e_Green.health;
+        health = Settings.e_Green.health;
 
         Transform temp = transform;
         E_BASE.SpawnOutsideCamera(ref temp);
@@ -18,7 +18,7 @@ public class E_Green : MonoBehaviour, E_BaseInterface
     void Update()
     {
         Transform temp = transform;
-        E_BASE.MoveTowardsPlayer(ref temp, BalancingSettings.e_Green.movementSpeed);
+        E_BASE.MoveTowardsPlayer(ref temp, Settings.e_Green.movementSpeed);
         transform.position = temp.position;
     }
 

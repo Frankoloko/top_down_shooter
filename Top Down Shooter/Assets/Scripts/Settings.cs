@@ -2,24 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BalancingSettings
+public class Settings
 {
-    // Inspector arrangement
-
-    // NOTE: Whatever you add here, you also need to add in the restart of the scene (Menu.cs)
-    [Header("General")]
+    // General
+    static public Progress progress = new Progress();
     static public Player player = new Player();
-    [Header("Enemies")]
+    // Enemies
     static public E_Divide e_Divide = new E_Divide();
     static public E_Movement e_Movement = new E_Movement();
     static public E_Green e_Green = new E_Green();
     static public E_Shoot e_Shoot = new E_Shoot();
-    [Header("Abilities")]
+    // Abilities
     static public Clone clone = new Clone();
     static public Flash flash = new Flash();
 
     static public void ResetStatics()
     {
+        // progress = new Progress(); // NEVER USE THIS: Progress is meant to stay saved over each new game start
         player = new Player();
         e_Divide = new E_Divide();
         e_Movement = new E_Movement();
@@ -29,7 +28,23 @@ public class BalancingSettings
         flash = new Flash();
     }
 
-    // General classes
+    // GENERAL
+
+    [System.Serializable]
+    public class Progress
+    {
+        // This class is for values that need to be kept over multiple levels/waves
+        public bool e_Divide_FirstKill = false;
+        public bool e_Movement_FirstKill = false;
+        public bool e_Shoot_FirstKill = false;
+
+        public string q_Ability;
+        public string e_Ability;
+        public Sprite q_Sprite = null;
+        public Sprite e_Sprite = null;
+
+        public int nextWave = 0;
+    }
 
     [System.Serializable]
     public class Player
@@ -51,7 +66,6 @@ public class BalancingSettings
         public float S_MovementSpeed = 7f;
         public float S_Health = 1f;
         public int killCounter = 8;
-        public bool firstKill = false;
     }
 
     [System.Serializable]
@@ -59,15 +73,13 @@ public class BalancingSettings
     {
         public float movementSpeed = 5f;
         public float health = 3f;
-        public bool firstKill = false;
     }
 
     [System.Serializable]
     public class E_Green
     {
         public float movementSpeed = 2f;
-        public float health = 15f;
-        public bool firstKill = false;
+        public float health = 10f;
     }
 
     [System.Serializable]
@@ -77,7 +89,6 @@ public class BalancingSettings
         public float health = 2f;
         public float bulletSpeed = 15f;
         public float shotDelay = 3f;
-        public bool firstKill = false;
     }
 
     // ABILITIES

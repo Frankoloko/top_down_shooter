@@ -10,10 +10,10 @@ public class Player : MonoBehaviour
     public GameObject ProjectilePrefab;
     float maxCameraHeight;
     float maxCameraWidth;
+    float moveBackFromScreenBorder = 0.5f;
     Vector2 movement;
 
     public float BulletDestroyTime = 5f;
-    float moveBackFromScreenBorder = 0.5f;
     bool cloneActive = false;
     bool shootOnCooldown = false;
 
@@ -37,16 +37,16 @@ public class Player : MonoBehaviour
             if (Settings.progress.q_Ability == "Divide") {
                 Clone();    
             }
-            if (Settings.progress.q_Ability == "Flash") {
-                Flash();    
+            if (Settings.progress.q_Ability == "Teleport") {
+                Teleport();    
             }
         }
         if (Input.GetKeyDown(KeyCode.E)) {
             if (Settings.progress.e_Ability == "Divide") {
                 Clone();    
             }
-            if (Settings.progress.e_Ability == "Flash") {
-                Flash();
+            if (Settings.progress.e_Ability == "Teleport") {
+                Teleport();
             }
         }
 
@@ -54,11 +54,11 @@ public class Player : MonoBehaviour
         ShootProjectile();
     }
 
-    void Flash()
+    void Teleport()
     {
         // Up
         if (Input.GetKey(KeyCode.UpArrow)) {
-            float new_y = transform.position.y + Settings.flash.distance;
+            float new_y = transform.position.y + Settings.teleport.distance;
             if (new_y > maxCameraHeight) {
                 new_y = maxCameraHeight;
             }
@@ -66,7 +66,7 @@ public class Player : MonoBehaviour
         }
         // Down
         if (Input.GetKey(KeyCode.DownArrow)) {
-            float new_y = transform.position.y - Settings.flash.distance;
+            float new_y = transform.position.y - Settings.teleport.distance;
             if (new_y < maxCameraHeight * -1) {
                 new_y = maxCameraHeight * -1;
             }
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
         }
         // Right
         if (Input.GetKey(KeyCode.RightArrow)) {
-            float new_x = transform.position.x + Settings.flash.distance;
+            float new_x = transform.position.x + Settings.teleport.distance;
             if (new_x > maxCameraWidth) {
                 new_x = maxCameraWidth;
             }
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
         }
         // Left
         if (Input.GetKey(KeyCode.LeftArrow)) {
-            float new_x = transform.position.x - Settings.flash.distance;
+            float new_x = transform.position.x - Settings.teleport.distance;
             if (new_x < maxCameraWidth * -1) {
                 new_x = maxCameraWidth * -1;
             }

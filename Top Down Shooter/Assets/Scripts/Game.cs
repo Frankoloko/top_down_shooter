@@ -17,11 +17,12 @@ public class Game : MonoBehaviour
     public GameObject E_Movement;
     public GameObject E_Green;
     public GameObject E_Shoot;
+    public GameObject E_Teleport;
 
     [HideInInspector]
     public int score = 0;
     Text scoreLabel;
-    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Green, E_Shoot }
+    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport }
 
     List<GameObject> AllEnemies;
     System.Random random = new System.Random();
@@ -41,7 +42,7 @@ public class Game : MonoBehaviour
         }
 
         // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
-        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot };
+        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport };
 
         // If endless mode, run the endless mode only
         if (fightMode == FightMode.RandomEndless) {
@@ -66,6 +67,9 @@ public class Game : MonoBehaviour
             if (fightMode == FightMode.E_Shoot) {
                 selected_enemy = E_Shoot;
             }
+            if (fightMode == FightMode.E_Teleport) {
+                selected_enemy = E_Teleport;
+            }
 
             StartCoroutine(Endless(selected_enemy));
             return;
@@ -89,6 +93,12 @@ public class Game : MonoBehaviour
     {
         // Set up the wave lists
         waves = new List<Wave>(){
+            new Wave(){
+                spawn_time_seconds = 10,
+                spawn_order = new GameObject[]{
+                    E_Teleport
+                },
+            },
             new Wave(){
                 spawn_time_seconds = 10,
                 spawn_order = new GameObject[]{

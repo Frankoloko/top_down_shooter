@@ -2,21 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class E_Shoot_Bullet : MonoBehaviour
+public class E_Teleport_Bullet : MonoBehaviour
 {
     public Vector2 velocity = new Vector2(0.0f, 0.0f);
     public GameObject shooter;
-    Sound sound;
     Game game;
+    float bulletGrowAmountPerFrame = Settings.e_Teleport.bulletSize / Settings.e_Teleport.pauseBeforeShoot / 200;
 
     void Start() {
         game = GameObject.Find("Game").GetComponent<Game>();
-        sound = GameObject.Find("Sound").GetComponent<Sound>();
-        
-        sound.PlayShoot();
     }
 
     void Update() {
+        float bulletScale = gameObject.transform.localScale.x;
+        
+        if (bulletScale < Settings.e_Teleport.bulletSize) {
+            gameObject.transform.localScale = new Vector3(bulletScale + bulletGrowAmountPerFrame, bulletScale + bulletGrowAmountPerFrame, bulletScale + bulletGrowAmountPerFrame);
+        }
+
         // Get the bullet's current position and new position (next frame position)
         Vector2 currentPosition = new Vector2(transform.position.x, transform.position.y);
         Vector2 newPosition = currentPosition + velocity * Settings.e_Shoot.bulletSpeed * Time.deltaTime;

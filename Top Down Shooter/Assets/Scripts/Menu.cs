@@ -89,6 +89,11 @@ public class Menu : MonoBehaviour
             GameObject.Find("?_3").GetComponent<Text>().enabled = false;
             GameObject.Find("Image_3").GetComponent<Image>().enabled = true;
         }
+        if (Settings.progress.e_Teleport_FirstKill) {
+            GameObject.Find("o_4").GetComponent<Button>().interactable = true;
+            GameObject.Find("?_4").GetComponent<Text>().enabled = false;
+            GameObject.Find("Image_4").GetComponent<Image>().enabled = true;
+        }
     }
 
     void Update()
@@ -131,6 +136,14 @@ public class Menu : MonoBehaviour
             }
             if (e_Pressed) {
                 Settings.progress.e_Ability = "Divide";
+            }
+        }
+        if (selectedButtonName == "o_4") {
+            if (q_Pressed) {
+                Settings.progress.q_Ability = "Teleport";
+            }
+            if (e_Pressed) {
+                Settings.progress.e_Ability = "Teleport";
             }
         }
         

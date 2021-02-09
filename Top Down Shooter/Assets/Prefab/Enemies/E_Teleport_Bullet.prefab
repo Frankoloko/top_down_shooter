@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2294729801691096517}
   - component: {fileID: -4334430334859860544}
   - component: {fileID: 6637238426181432780}
-  - component: {fileID: 6678011616463268821}
+  - component: {fileID: 8255136096611342607}
   m_Layer: 0
-  m_Name: E_Shoot_Bullet
+  m_Name: E_Teleport_Bullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 2857884369212785906}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.67, y: 0.07, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -1
-  m_Sprite: {fileID: 21300000, guid: 1a65ca84bb3794e1ab706320968fbcf7, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 81c62a133c0cf43a680b6b562087bce5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -118,10 +118,10 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.01}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.02
---- !u!114 &6678011616463268821
+  m_Radius: 0.041
+--- !u!114 &8255136096611342607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -130,7 +130,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2857884369212785906}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5e13018d6fd947b99c078d179dd043c, type: 3}
+  m_Script: {fileID: 11500000, guid: 430127851e04d48d19f1f5e7edefd02f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0}

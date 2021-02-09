@@ -12,9 +12,10 @@ public class Settings
     static public E_Movement e_Movement = new E_Movement();
     static public E_Green e_Green = new E_Green();
     static public E_Shoot e_Shoot = new E_Shoot();
+    static public E_Teleport e_Teleport = new E_Teleport();
     // Abilities
     static public Clone clone = new Clone();
-    static public Flash flash = new Flash();
+    static public Teleport teleport = new Teleport();
 
     static public void ResetStatics()
     {
@@ -24,8 +25,9 @@ public class Settings
         e_Movement = new E_Movement();
         e_Green = new E_Green();
         e_Shoot = new E_Shoot();
+        e_Teleport = new E_Teleport();
         clone = new Clone();
-        flash = new Flash();
+        teleport = new Teleport();
     }
 
     // GENERAL
@@ -37,6 +39,7 @@ public class Settings
         public bool e_Divide_FirstKill = false;
         public bool e_Movement_FirstKill = false;
         public bool e_Shoot_FirstKill = false;
+        public bool e_Teleport_FirstKill = false;
 
         public string q_Ability;
         public string e_Ability;
@@ -85,10 +88,23 @@ public class Settings
     [System.Serializable]
     public class E_Shoot
     {
-        public float movementSpeed = 2f;
+        public float movementSpeed = 3f;
         public float health = 2f;
         public float bulletSpeed = 15f;
-        public float shotDelay = 3f;
+        public float moveTime = 5f;
+        public float pauseBeforeShoot = 1.5f;
+        public float pauseAfterShoot = 1f;
+    }
+
+    [System.Serializable]
+    public class E_Teleport
+    {
+        public float movementSpeed = 3f;
+        public float health = 2f;
+        public float bulletSpeed = 15f;
+        public float pauseBeforeShoot = 3f;
+        public float pauseAfterShoot = 1f;
+        public float bulletSize = 25f;
     }
 
     // ABILITIES
@@ -101,7 +117,7 @@ public class Settings
     }
 
     [System.Serializable]
-    public class Flash
+    public class Teleport
     {
         public float cooldown = 7f;
         public float distance = 10f;

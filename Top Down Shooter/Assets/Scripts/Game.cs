@@ -23,6 +23,7 @@ public class Game : MonoBehaviour
     public int score = 0;
     Text scoreLabel;
     public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport }
+    bool start = false;
 
     List<GameObject> AllEnemies;
     System.Random random = new System.Random();
@@ -32,16 +33,24 @@ public class Game : MonoBehaviour
     {
         GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
         scoreLabel = GameObject.Find("Score").GetComponent<Text>();
-
+        scoreLabel.enabled = false;
         GameObject.Find("WaveNumber").GetComponent<Text>().text = Settings.progress.nextWave.ToString();
 
         // Turn the cursor off so that it isn't in the way
         Cursor.visible = false;
-        
+
         // If no enemies, just stop the code
         if (fightMode == FightMode.NoEnemies) {
             return;
         }
+
+        // Wait a bit before starting the enemies
+        Invoke("DelayedStart", 5f);
+    }
+
+    void DelayedStart()
+    {   
+        start = true;
 
         // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
         AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport };
@@ -169,6 +178,10 @@ public class Game : MonoBehaviour
 
     void Update()
     {
+        if (!start) {
+            return;
+        }
+
         // Unlock popup: Check if the unlock popup is open (when it is open it pauses the game)
         if (Time.timeScale == 0) {
             // if (Input.anyKey) { // This is not working because it triggers since the player is already pressing a direction to shoot/move

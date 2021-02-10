@@ -14,10 +14,15 @@ public class E_Teleport_Bullet : MonoBehaviour
     }
 
     void Update() {
+        // Grow the bullet
         float bulletScale = gameObject.transform.localScale.x;
-        
         if (bulletScale < Settings.e_Teleport.bulletSize) {
             gameObject.transform.localScale = new Vector3(bulletScale + bulletGrowAmountPerFrame, bulletScale + bulletGrowAmountPerFrame, bulletScale + bulletGrowAmountPerFrame);
+        }
+
+        // Check if the shooter has died before the ball started moving
+        if (shooter == null & velocity == new Vector2(0f, 0f)) {
+            Destroy(gameObject);
         }
 
         // Get the bullet's current position and new position (next frame position)

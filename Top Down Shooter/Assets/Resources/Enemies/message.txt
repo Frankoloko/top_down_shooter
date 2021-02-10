@@ -1,0 +1,70 @@
+{
+    "app_locations": {
+        "maya": {
+            "2018": "C:/Program Files/Autodesk/Maya2018/bin/maya.exe",
+            "2020": "C:/Program Files/Autodesk/Maya2020/bin/maya.exe"
+        },
+        "houdini": {
+            "17.5.327": {
+                "core": "C:/Program Files/Side Effects Software/Houdini 17.5.327/bin/houdinicore.exe",
+                "master": "C:/Program Files/Side Effects Software/Houdini 17.5.327/bin/houdinifx.exe"
+            }
+        },
+        "nuke": {
+            "11.3v2": "C:/Program Files/Nuke11.3v2/Nuke11.3.exe"
+        }
+    },
+    "environments": {
+        "maya": {
+            "2018": {
+                "environment_variables": {
+                    "tf_test_2018_env": "/path/to/test/file.env",
+                    "tf_test_2018_env2": "/path/to/test/file2.env",
+                    "tf_test_2018_env3": "/path/to/test/file3.env"
+                }
+            },
+            "2020": {
+                "environment_variables": {
+                    "tf_test_2020_env": "/path/to/test/file.env",
+                    "tf_test_2020_env2": "/path/to/test/file2.env",
+                    "tf_test_2020_env3": "/path/to/test/file3.env"
+                },
+                "python_path": [
+                    "/path/to/python/module1",
+                    "/path/to/python/module2"
+                ]
+            }
+        },
+        "houdini": {
+            "17.5.327": {
+                "core": {
+                    "environment_variables": {
+                        "tf_test_2018_env": "/path/to/test/file.env",
+                        "tf_test_2018_env2": "/path/to/test/file2.env",
+                        "tf_test_2018_env3": "/path/to/test/file3.env"
+                    }
+                },
+                "master": {}
+            }
+        },
+        "nuke": {
+            "11.3v2": {
+                "environment_variables": {
+                    "tf_test_2018_env": "/path/to/test/file.env",
+                    "tf_test_2018_env2": "/path/to/test/file2.env",
+                    "tf_test_2018_env3": "/path/to/test/file3.env"
+                }
+            }
+        }
+    },
+    "remote_modules": {
+        "paths": [
+            "\\\\reef\\Resources\\python\\modules"
+        ],
+        "modules": [
+            "shotgun_api3",
+            "PyQt5",
+            "OpenEXR"
+        ]
+    }
+}

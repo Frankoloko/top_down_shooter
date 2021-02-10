@@ -46,7 +46,7 @@ public class Settings
         public Sprite q_Sprite = null;
         public Sprite e_Sprite = null;
 
-        public int nextWave = 0;
+        public int nextWave = 1;
     }
 
     [System.Serializable]
@@ -74,7 +74,7 @@ public class Settings
     [System.Serializable]
     public class E_Movement
     {
-        public float movementSpeed = 5f;
+        public float movementSpeed = 4f;
         public float health = 3f;
     }
 

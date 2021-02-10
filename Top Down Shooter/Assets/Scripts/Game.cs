@@ -33,6 +33,8 @@ public class Game : MonoBehaviour
         GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
         scoreLabel = GameObject.Find("Score").GetComponent<Text>();
 
+        GameObject.Find("WaveNumber").GetComponent<Text>().text = Settings.progress.nextWave.ToString();
+
         // Turn the cursor off so that it isn't in the way
         Cursor.visible = false;
         
@@ -46,6 +48,7 @@ public class Game : MonoBehaviour
 
         // If endless mode, run the endless mode only
         if (fightMode == FightMode.RandomEndless) {
+            UnlockEverything();
             StartCoroutine(Endless());
             return;
         }
@@ -71,9 +74,13 @@ public class Game : MonoBehaviour
                 selected_enemy = E_Teleport;
             }
 
+            UnlockEverything();
             StartCoroutine(Endless(selected_enemy));
             return;
         }
+
+        // If the code reaches here, then we are doing the "Waves" fight mode
+        scoreLabel.enabled = false;
 
         // Setup the arrays of enemies
         SetupLists();
@@ -89,10 +96,29 @@ public class Game : MonoBehaviour
         }
     }
 
+    void UnlockEverything()
+    {
+        // Unlock everything
+        Settings.progress.e_Divide_FirstKill = true;
+        Settings.progress.e_Movement_FirstKill = true;
+        Settings.progress.e_Shoot_FirstKill = true;
+        Settings.progress.e_Teleport_FirstKill = true;
+
+        // Assign first abilities
+        Settings.progress.q_Ability = "Divide";
+        Settings.progress.e_Ability = "Teleport";
+
+        // Hide/Unhide labels
+        GameObject.Find("Score").GetComponent<Text>().enabled = true;
+        GameObject.Find("Wave").GetComponent<Text>().enabled = false;
+        GameObject.Find("WaveNumber").GetComponent<Text>().enabled = false;
+    }
+
     void SetupLists()
     {
         // Set up the wave lists
         waves = new List<Wave>(){
+            // Wave [0] is used for testing purposes. Do whatever you want with it
             new Wave(){
                 spawn_time_seconds = 10,
                 spawn_order = new GameObject[]{
@@ -100,15 +126,33 @@ public class Game : MonoBehaviour
                 },
             },
             new Wave(){
-                spawn_time_seconds = 10,
+                spawn_time_seconds = 2,
                 spawn_order = new GameObject[]{
-                    E_Movement, E_Movement, E_Movement
+                    E_Shoot, E_Shoot
+                },
+            },
+            new Wave(){
+                spawn_time_seconds = 30,
+                spawn_order = new GameObject[]{
+                    E_Movement, E_Movement, E_Movement, E_Movement
+                },
+            },
+            new Wave(){
+                spawn_time_seconds = 40,
+                spawn_order = new GameObject[]{
+                    E_Movement, E_Shoot, E_Movement, E_Shoot, E_Movement, E_Shoot, E_Movement, E_Shoot
                 },
             },
             new Wave(){
                 spawn_time_seconds = 60,
                 spawn_order = new GameObject[]{
-                    E_Divide_L, E_Divide_L, E_Movement, E_Divide_L, E_Movement, E_Divide_L, E_Divide_L,E_Divide_L, E_Movement, E_Movement
+                    E_Movement, E_Shoot, E_Divide_L, E_Movement, E_Shoot, E_Divide_L, E_Movement, E_Shoot, E_Divide_L
+                },
+            },
+            new Wave(){
+                spawn_time_seconds = 80,
+                spawn_order = new GameObject[]{
+                    E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Movement, E_Shoot, E_Divide_L, E_Teleport
                 },
             }
         };

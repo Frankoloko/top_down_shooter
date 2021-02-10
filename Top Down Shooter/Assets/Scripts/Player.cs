@@ -95,69 +95,75 @@ public class Player : MonoBehaviour
 
     void MovePlayer()
     {
-        // Only do something if the player is actually giving movement input
-        if (!(movement.x == 0 & movement.y == 0)) {
-            // Normal sideways movement
-            Vector2 newPosition = rigidbody.position + movement * Settings.player.movementSpeed * Time.fixedDeltaTime;
+        // Only unlock movement when the player has unlocked it
+        if (Settings.progress.e_Movement_FirstKill) {
+            // Only do something if the player is actually giving movement input
+            if (!(movement.x == 0 & movement.y == 0)) {
+                // Normal sideways movement
+                Vector2 newPosition = rigidbody.position + movement * Settings.player.movementSpeed * Time.fixedDeltaTime;
 
-            // Only move the player if they aren't outside the camera borders
-            if (newPosition[1] > maxCameraHeight) {
-                newPosition[1] = maxCameraHeight;
-            }
-            if (newPosition[1] < maxCameraHeight * -1) {
-                newPosition[1] = maxCameraHeight * -1;
-            }
-            if (newPosition[0] > maxCameraWidth) {
-                newPosition[0] = maxCameraWidth;
-            }
-            if (newPosition[0] < maxCameraWidth * -1) {
-                newPosition[0] = maxCameraWidth * -1;
-            }
+                // Only move the player if they aren't outside the camera borders
+                if (newPosition[1] > maxCameraHeight) {
+                    newPosition[1] = maxCameraHeight;
+                }
+                if (newPosition[1] < maxCameraHeight * -1) {
+                    newPosition[1] = maxCameraHeight * -1;
+                }
+                if (newPosition[0] > maxCameraWidth) {
+                    newPosition[0] = maxCameraWidth;
+                }
+                if (newPosition[0] < maxCameraWidth * -1) {
+                    newPosition[0] = maxCameraWidth * -1;
+                }
 
-            rigidbody.MovePosition(newPosition);
+                rigidbody.MovePosition(newPosition);
+            }
         }
     }
 
     void ShootProjectile()
     {
-        // This is just a timer that delays the player form shooting bullets as fast as they can click
-        if (shootOnCooldown) {
-            return;
-        }
-
-        // Check if any of the shoot codes are being pressed
-        if (Input.GetKey(KeyCode.A) ^ Input.GetKey(KeyCode.D) ^ Input.GetKey(KeyCode.S) ^ Input.GetKey(KeyCode.W)) {
-
-            // Get the velocity (direction) of the bullet
-            Vector2 velocity = new Vector2(0.0f, 0.0f);
-
-            if (Input.GetKey(KeyCode.A)) {
-                velocity = new Vector2(Settings.player.bulletSpeed * -1, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.D)) {
-                velocity = new Vector2(Settings.player.bulletSpeed, 0.0f);
-            }
-            if (Input.GetKey(KeyCode.W)) {
-                velocity = new Vector2(0.0f, Settings.player.bulletSpeed);
-            }
-            if (Input.GetKey(KeyCode.S)) {
-                velocity = new Vector2(0.0f, Settings.player.bulletSpeed * -1);
+        // Only unlock shooting when the player has unlocked it
+        if (Settings.progress.e_Shoot_FirstKill) {
+            // This is just a timer that delays the player form shooting bullets as fast as they can click
+            if (shootOnCooldown) {
+                return;
             }
 
-            // Create new projectile
-            GameObject projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.identity);
-            Bullet bullet = projectile.GetComponent<Bullet>();
+            // Check if any of the shoot codes are being pressed
+            if (Input.GetKey(KeyCode.A) ^ Input.GetKey(KeyCode.D) ^ Input.GetKey(KeyCode.S) ^ Input.GetKey(KeyCode.W)) {
 
-            // Give new bullet the correct velocity
-            bullet.velocity = velocity;
-            bullet.shooter = gameObject;
+                // Get the velocity (direction) of the bullet
+                Vector2 velocity = new Vector2(0.0f, 0.0f);
 
-            // Start the shoot timeout delay
-            shootOnCooldown = true;
-            StartCoroutine(ShootOffTimeout());
+                if (Input.GetKey(KeyCode.A)) {
+                    velocity = new Vector2(Settings.player.bulletSpeed * -1, 0.0f);
+                }
+                if (Input.GetKey(KeyCode.D)) {
+                    velocity = new Vector2(Settings.player.bulletSpeed, 0.0f);
+                }
+                if (Input.GetKey(KeyCode.W)) {
+                    velocity = new Vector2(0.0f, Settings.player.bulletSpeed);
+                }
+                if (Input.GetKey(KeyCode.S)) {
+                    velocity = new Vector2(0.0f, Settings.player.bulletSpeed * -1);
+                }
 
-            // Destory the new projectile after an X amount of time
-            Destroy(projectile, BulletDestroyTime);
+                // Create new projectile
+                GameObject projectile = Instantiate(ProjectilePrefab, transform.position, Quaternion.identity);
+                Bullet bullet = projectile.GetComponent<Bullet>();
+
+                // Give new bullet the correct velocity
+                bullet.velocity = velocity;
+                bullet.shooter = gameObject;
+
+                // Start the shoot timeout delay
+                shootOnCooldown = true;
+                StartCoroutine(ShootOffTimeout());
+
+                // Destory the new projectile after an X amount of time
+                Destroy(projectile, BulletDestroyTime);
+            }
         }
     }
 

@@ -25,26 +25,63 @@ public class E_BASE
         // Create the spawn point
         if (spawnSide == 1) {
             // Left
-            spawnHeight = Random.Range(maxCameraHeight * -1, maxCameraHeight);
             spawnWidth = maxCameraWidth * -1;
+            if (Settings.progress.nextWave == 2) {
+                // This is the wave that movement is unlocked, so spawn the enemies to the side of the player so they can shoot the enemies without moving
+                spawnHeight = 0f;
+            } else {        
+                // Normal spawn
+                spawnHeight = Random.Range(maxCameraHeight * -1, maxCameraHeight);
+            }
         }
         if (spawnSide == 2) {
             // Right
-            spawnHeight = Random.Range(maxCameraHeight * -1, maxCameraHeight);
             spawnWidth = maxCameraWidth;
+            if (Settings.progress.nextWave == 2) {
+                // This is the wave that movement is unlocked, so spawn the enemies to the side of the player so they can shoot the enemies without moving
+                spawnHeight = 0f;
+            } else {
+                // Normal spawn
+                spawnHeight = Random.Range(maxCameraHeight * -1, maxCameraHeight);
+            }
         } 
         if (spawnSide == 3) {
             // Top
             spawnHeight = maxCameraHeight;
-            spawnWidth = Random.Range(maxCameraWidth * -1, maxCameraWidth);
+            if (Settings.progress.nextWave == 2) {
+                // This is the wave that movement is unlocked, so spawn the enemies to the side of the player so they can shoot the enemies without moving
+                spawnWidth = 0f;
+            } else {
+                // Normal spawn
+                spawnWidth = Random.Range(maxCameraHeight * -1, maxCameraHeight);
+            }
         }
         if (spawnSide == 4) {
             // Bottom
             spawnHeight = maxCameraHeight * -1;
-            spawnWidth = Random.Range(maxCameraWidth * -1, maxCameraWidth);
+            if (Settings.progress.nextWave == 2) {
+                // This is the wave that movement is unlocked, so spawn the enemies to the side of the player so they can shoot the enemies without moving
+                spawnWidth = 0f;
+            } else {
+                // Normal spawn
+                spawnWidth = Random.Range(maxCameraHeight * -1, maxCameraHeight);
+            }
         } 
 
-        // Transform to outside of camera view
+        // Check if we are on the first wave where we unlock shooting
+        if (Settings.progress.nextWave == 1) {
+            if (GameObject.Find("E_Shoot(Clone)1")) {
+                // This is the spawn for the second shooter
+                spawnHeight = (maxCameraHeight / 3);
+                spawnWidth = maxCameraWidth;
+            } else {
+                // This is the spawn for the first shooter
+                spawnHeight = -(maxCameraHeight / 3);
+                spawnWidth = -maxCameraWidth;
+            }
+        }
+
+        // Spawn unit
         transform.position = new Vector2(spawnWidth, spawnHeight);
     }
 

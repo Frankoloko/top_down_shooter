@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 02f554e2ce659415692a4e0c38dd03cc
+guid: 5ad0dc9c7927045e58d89a836cc12541
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Surfing Capital
+  fontName: Mrs. Monster Leftalic
   fontNames:
-  - Surfing Capital
+  - Mrs. Monster Leftalic
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

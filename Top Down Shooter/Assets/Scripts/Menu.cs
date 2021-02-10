@@ -33,6 +33,8 @@ public class Menu : MonoBehaviour
         GameObject.Find("?_E").GetComponent<Text>().enabled = true;
         GameObject.Find("Image_E").GetComponent<Image>().enabled = false;
 
+        GameObject.Find("Assignment").GetComponent<Text>().enabled = false;
+
         // OPTIONS
 
         GameObject.Find("o_1").GetComponent<Button>().interactable = false;
@@ -58,15 +60,20 @@ public class Menu : MonoBehaviour
 
     void LoadUnlockedImages()
     {
-        if (Settings.progress.q_Sprite) {
-            GameObject.Find("?_Q").GetComponent<Text>().enabled = false;
-            GameObject.Find("Image_Q").GetComponent<Image>().enabled = true;
-            GameObject.Find("Image_Q").GetComponent<Image>().sprite = Settings.progress.q_Sprite;
-        }
-        if (Settings.progress.e_Sprite) {
-            GameObject.Find("?_E").GetComponent<Text>().enabled = false;
-            GameObject.Find("Image_E").GetComponent<Image>().enabled = true;
-            GameObject.Find("Image_E").GetComponent<Image>().sprite = Settings.progress.e_Sprite;
+        if (Settings.progress.nextWave > 4) {
+            GameObject.Find("Assignment").GetComponent<Text>().enabled = true;
+
+            if (Settings.progress.q_Sprite) {
+                GameObject.Find("?_Q").GetComponent<Text>().enabled = false;
+                GameObject.Find("Image_Q").GetComponent<Image>().enabled = true;
+                GameObject.Find("Image_Q").GetComponent<Image>().sprite = Settings.progress.q_Sprite;
+            }
+
+            if (Settings.progress.e_Sprite) {
+                GameObject.Find("?_E").GetComponent<Text>().enabled = false;
+                GameObject.Find("Image_E").GetComponent<Image>().enabled = true;
+                GameObject.Find("Image_E").GetComponent<Image>().sprite = Settings.progress.e_Sprite;
+            }
         }
         if (Settings.progress.e_Shoot_FirstKill) {
             GameObject.Find("?_WASD").GetComponent<Text>().enabled = false;
@@ -105,8 +112,14 @@ public class Menu : MonoBehaviour
 
         // R: Restart game
         if (Input.GetKeyDown(KeyCode.R)) {
-            SceneManager.LoadScene("Game");
-            Settings.ResetStatics();
+            if (Settings.progress.nextWave < 5) {
+                SceneManager.LoadScene("Game");
+                Settings.ResetStatics();
+            } else if (Settings.progress.q_Ability != null ^ Settings.progress.e_Ability != null) {
+                // If we are above wave 4, then the player has to assign an ability to continue the game
+                SceneManager.LoadScene("Game");
+                Settings.ResetStatics();
+            }
         }
 
         // ESC: Quit game

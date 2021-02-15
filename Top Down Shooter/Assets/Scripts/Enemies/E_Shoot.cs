@@ -80,20 +80,20 @@ public class E_Shoot : MonoBehaviour, E_BaseInterface
 
         if (gameObject.name == "E_Shoot(Clone)0") {
             // First shooter (spawns on bottom left of screen)
-            randomX = -10.5f;
+            randomX = -13.9f;
             randomY = -6.9f;
             // Destroy the unit after an x amount of time (to simulate the bullets hitting them)
-            Invoke("PlayDestroy", 9.4f);
-            Invoke("EndWave", 9.4f);
-            Destroy(gameObject, 9.6f);
+            Invoke("PlayDestroy", 10f);
+            Invoke("EndWave", 10f);
+            Destroy(gameObject, 10f);
         } else {
             // Second shooter (spawns on top right of screen)
             randomX = 12f;
             randomY = 12f;
             // Destroy the unit after an x amount of time (to simulate the bullets hitting them)
-            Invoke("PlayDestroy", 7.52f);
-            Invoke("FirstUnlock", 7.52f);
-            Destroy(gameObject, 7.6f);
+            Invoke("PlayDestroy", 7.75f);
+            Invoke("FirstUnlock", 7.75f);
+            Destroy(gameObject, 7.8f);
         }
 
         moveToPosition = new Vector2(randomX, randomY);

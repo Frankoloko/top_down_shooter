@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 6592668103737729231}
   - component: {fileID: 6592668103737729230}
   - component: {fileID: 6592668103737729229}
-  - component: {fileID: 3230913878065652222}
+  - component: {fileID: 6691204799786310309}
   m_Layer: 0
-  m_Name: E_Green
+  m_Name: E_Jump
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6592668103737729217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.13, y: 0.35, z: 0}
-  m_LocalScale: {x: 15, y: 15, z: 18}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -131,7 +131,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.17, y: 0.21}
   m_EdgeRadius: 0
---- !u!114 &3230913878065652222
+--- !u!114 &6691204799786310309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -140,6 +140,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6592668103737729217}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d175bfe27dd0c40259027f852cfc7d95, type: 3}
+  m_Script: {fileID: 11500000, guid: 33c86fd62d871449eb9410f4996970c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shadowPrefab: {fileID: 3776497611099692465, guid: 2647a2748de9640f2a47c873186bc90d,
+    type: 3}

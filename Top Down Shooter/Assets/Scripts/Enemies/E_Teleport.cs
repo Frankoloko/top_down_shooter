@@ -34,37 +34,31 @@ public class E_Teleport : MonoBehaviour, E_BaseInterface
 
     void RepeatingPattern()
     {
-        // Here we repeat 3 things:
-            // 1: Teleport
-            // 2: Wait x amount of time before shooting
-            // 3: Shoot
-            // 4: Wait x amount of time after shooting
-
         // To do all this waiting, we need to start it in a Coroutine
         StartCoroutine(WaitCode());
     }
  
     IEnumerator WaitCode()
     {
-        // 1: Teleport
+        // Teleport
             float randomX = Random.Range(-maxCameraWidth, maxCameraWidth);
             float randomY = Random.Range(-maxCameraHeight, maxCameraHeight);
             transform.position = new Vector2(randomX, randomY);
 
-        // 2: Create the projectile (it starts the scale growing by it self)
+        // Create the projectile (it starts the scale growing by it self)
             GameObject created_bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             E_Teleport_Bullet bullet = created_bullet.GetComponent<E_Teleport_Bullet>();
             bullet.shooter = gameObject;
 
-        // 2: Wait x amount of time before shooting
+        // Wait x amount of time before shooting
             yield return new WaitForSeconds(Settings.e_Teleport.pauseBeforeShoot);
         
-        // 3: Shoot the bullet
+        // Shoot the bullet
             sound.PlayShoot();
             Vector2 velocity = player.transform.position - transform.position;
             bullet.velocity = velocity.normalized;
 
-        // 4: Wait x amount of time after shooting
+        // Wait x amount of time after shooting
             yield return new WaitForSeconds(Settings.e_Teleport.pauseAfterShoot);
     }
 

@@ -1689,15 +1689,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bb260fdc0e4a4ee5b0abda90e458d16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fightMode: 1
+  fightMode: 2
   E_Divide_L: {fileID: 6592668103737729217, guid: 724f0830063404c10adaa540b83b9e95,
     type: 3}
   E_Movement: {fileID: 6592668103737729217, guid: 4e970d13e5ee946e48a9785aaf4cfdab,
     type: 3}
-  E_Green: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
   E_Shoot: {fileID: 6592668103737729217, guid: 69468a9e6546c4fbc90c6504be71e65d, type: 3}
   E_Teleport: {fileID: 6592668103737729217, guid: 10518dfe089724b18ac589eb66b1c7df,
     type: 3}
+  E_Jump: {fileID: 6592668103737729217, guid: 1df9c77bcb43e4023951c8b64b401bc1, type: 3}
   score: 0
 --- !u!4 &1613897329
 Transform:

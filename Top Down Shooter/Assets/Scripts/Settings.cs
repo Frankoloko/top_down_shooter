@@ -10,7 +10,7 @@ public class Settings
     // Enemies
     static public E_Divide e_Divide = new E_Divide();
     static public E_Movement e_Movement = new E_Movement();
-    static public E_Green e_Green = new E_Green();
+    static public E_Jump e_Jump = new E_Jump();
     static public E_Shoot e_Shoot = new E_Shoot();
     static public E_Teleport e_Teleport = new E_Teleport();
     // Abilities
@@ -23,9 +23,9 @@ public class Settings
         player = new Player();
         e_Divide = new E_Divide();
         e_Movement = new E_Movement();
-        e_Green = new E_Green();
         e_Shoot = new E_Shoot();
         e_Teleport = new E_Teleport();
+        e_Jump = new E_Jump();
         clone = new Clone();
         teleport = new Teleport();
     }
@@ -40,9 +40,10 @@ public class Settings
         public bool e_Movement_FirstKill = false;
         public bool e_Shoot_FirstKill = false;
         public bool e_Teleport_FirstKill = false;
+        public bool e_Jump_FirstKill = false;
 
-        public string q_Ability;
-        public string e_Ability;
+        public string q_Ability = null;
+        public string e_Ability = null;
         public Sprite q_Sprite = null;
         public Sprite e_Sprite = null;
 
@@ -79,10 +80,12 @@ public class Settings
     }
 
     [System.Serializable]
-    public class E_Green
+    public class E_Jump
     {
-        public float movementSpeed = 2f;
         public float health = 10f;
+        public float shadowMoveSpeed = 6f;
+        public float shadowMoveTime = 2f;
+        public float bendDownTime = 2f;
     }
 
     [System.Serializable]
@@ -92,7 +95,7 @@ public class Settings
         public float health = 2f;
         public float bulletSpeed = 15f;
         public float moveTime = 5f;
-        public float pauseBeforeShoot = 1.5f;
+        public float pauseBeforeShoot = 0.5f;
         public float pauseAfterShoot = 1f;
     }
 

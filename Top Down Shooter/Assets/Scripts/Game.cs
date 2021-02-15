@@ -15,14 +15,14 @@ public class Game : MonoBehaviour
     public FightMode fightMode;
     public GameObject E_Divide_L;
     public GameObject E_Movement;
-    public GameObject E_Green;
     public GameObject E_Shoot;
     public GameObject E_Teleport;
+    public GameObject E_Jump;
 
     [HideInInspector]
     public int score = 0;
     Text scoreLabel;
-    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport }
+    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Shoot, E_Teleport, E_Jump }
     bool start = false;
 
     List<GameObject> AllEnemies;
@@ -44,16 +44,8 @@ public class Game : MonoBehaviour
             return;
         }
 
-        // Wait a bit before starting the enemies
-        Invoke("DelayedStart", 5f);
-    }
-
-    void DelayedStart()
-    {   
-        start = true;
-
         // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
-        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Green, E_Shoot, E_Teleport };
+        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Jump, E_Shoot, E_Teleport };
 
         // If endless mode, run the endless mode only
         if (fightMode == FightMode.RandomEndless) {
@@ -73,8 +65,8 @@ public class Game : MonoBehaviour
             if (fightMode == FightMode.E_Movement) {
                 selected_enemy = E_Movement;
             }
-            if (fightMode == FightMode.E_Green) {
-                selected_enemy = E_Green;
+            if (fightMode == FightMode.E_Jump) {
+                selected_enemy = E_Jump;
             }
             if (fightMode == FightMode.E_Shoot) {
                 selected_enemy = E_Shoot;
@@ -87,6 +79,14 @@ public class Game : MonoBehaviour
             StartCoroutine(Endless(selected_enemy));
             return;
         }
+
+        // Wait a bit before starting the enemies
+        Invoke("DelayedStart", 5f);
+    }
+
+    void DelayedStart()
+    {   
+        start = true;
 
         // If the code reaches here, then we are doing the "Waves" fight mode
         scoreLabel.enabled = false;
@@ -127,41 +127,53 @@ public class Game : MonoBehaviour
     {
         // Set up the wave lists
         waves = new List<Wave>(){
-            // Wave [0] is used for testing purposes. Do whatever you want with it
+            // For testing
             new Wave(){
                 spawn_time_seconds = 10,
                 spawn_order = new GameObject[]{
                     E_Teleport
                 },
             },
+            // Unlock shooting
             new Wave(){
                 spawn_time_seconds = 2,
                 spawn_order = new GameObject[]{
                     E_Shoot, E_Shoot
                 },
             },
+            // Unlock movement
             new Wave(){
                 spawn_time_seconds = 30,
                 spawn_order = new GameObject[]{
                     E_Movement, E_Movement, E_Movement, E_Movement
                 },
             },
+            // Practice movement and shooting
             new Wave(){
                 spawn_time_seconds = 40,
                 spawn_order = new GameObject[]{
                     E_Movement, E_Shoot, E_Movement, E_Shoot, E_Movement, E_Shoot, E_Movement, E_Shoot
                 },
             },
+            // Unlock divide
             new Wave(){
-                spawn_time_seconds = 60,
+                spawn_time_seconds = 70,
                 spawn_order = new GameObject[]{
                     E_Movement, E_Shoot, E_Divide_L, E_Movement, E_Shoot, E_Divide_L, E_Movement, E_Shoot, E_Divide_L
                 },
             },
+            // Unlock teleport
             new Wave(){
-                spawn_time_seconds = 80,
+                spawn_time_seconds = 90,
                 spawn_order = new GameObject[]{
                     E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Movement, E_Shoot, E_Divide_L, E_Teleport
+                },
+            },
+            // Unlock jump
+            new Wave(){
+                spawn_time_seconds = 100,
+                spawn_order = new GameObject[]{
+                    E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Jump, E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Jump, E_Movement, E_Shoot, E_Divide_L, E_Teleport, E_Jump
                 },
             }
         };
@@ -215,6 +227,9 @@ public class Game : MonoBehaviour
     {
         // In endless mode we start by creating an enemy every 4 seconds
         // With every enemy created we decrease the create time
+
+        // Set the next wave to 0 otherwise the game is going to think we are on the first level and spawn the shoot-unlock wave
+        Settings.progress.nextWave = 0;
 
         float spawn_increment_seconds = 4;
         while (spawn_increment_seconds > 0)

@@ -101,13 +101,20 @@ public class Menu : MonoBehaviour
             GameObject.Find("?_4").GetComponent<Text>().enabled = false;
             GameObject.Find("Image_4").GetComponent<Image>().enabled = true;
         }
+        if (Settings.progress.e_Jump_FirstKill) {
+            GameObject.Find("o_5").GetComponent<Button>().interactable = true;
+            GameObject.Find("?_5").GetComponent<Text>().enabled = false;
+            GameObject.Find("Image_5").GetComponent<Image>().enabled = true;
+        }
     }
 
     void Update()
     {
         // Arrows: Move between abilities
-        if (Input.GetKeyDown(KeyCode.LeftArrow) ^ Input.GetKeyDown(KeyCode.RightArrow) ^ Input.GetKeyDown(KeyCode.UpArrow) ^ Input.GetKeyDown(KeyCode.DownArrow)) {
-            sound.PlaySelect();
+        if (Settings.progress.nextWave > 4) {
+            if (Input.GetKeyDown(KeyCode.LeftArrow) ^ Input.GetKeyDown(KeyCode.RightArrow) ^ Input.GetKeyDown(KeyCode.UpArrow) ^ Input.GetKeyDown(KeyCode.DownArrow)) {
+                sound.PlaySelect();
+            }
         }
 
         // R: Restart game
@@ -115,7 +122,7 @@ public class Menu : MonoBehaviour
             if (Settings.progress.nextWave < 5) {
                 SceneManager.LoadScene("Game");
                 Settings.ResetStatics();
-            } else if (Settings.progress.q_Ability != null ^ Settings.progress.e_Ability != null) {
+            } else if (!(Settings.progress.q_Ability != null ^ Settings.progress.e_Ability != null)) {
                 // If we are above wave 4, then the player has to assign an ability to continue the game
                 SceneManager.LoadScene("Game");
                 Settings.ResetStatics();
@@ -131,7 +138,6 @@ public class Menu : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Q) ^ Input.GetKeyDown(KeyCode.E)) {
             AssignAbilities();
         }
-       
     }
 
     void AssignAbilities()

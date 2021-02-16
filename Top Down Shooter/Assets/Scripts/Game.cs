@@ -22,106 +22,12 @@ public class Game : MonoBehaviour
     [HideInInspector]
     public int score = 0;
     Text scoreLabel;
-    public enum FightMode { NoEnemies, RandomEndless, Waves, E_Divide_L, E_Movement, E_Shoot, E_Teleport, E_Jump }
+    public enum FightMode { NoEnemies, RandomEndless, Wave_0, Waves, E_Divide_L, E_Movement, E_Shoot, E_Teleport, E_Jump }
     bool start = false;
 
     List<GameObject> AllEnemies;
     System.Random random = new System.Random();
     List<Wave> waves;
-
-    void Start()
-    {
-        GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
-        scoreLabel = GameObject.Find("Score").GetComponent<Text>();
-        scoreLabel.enabled = false;
-        GameObject.Find("WaveNumber").GetComponent<Text>().text = Settings.progress.nextWave.ToString();
-
-        // Turn the cursor off so that it isn't in the way
-        Cursor.visible = false;
-
-        // If no enemies, just stop the code
-        if (fightMode == FightMode.NoEnemies) {
-            return;
-        }
-
-        // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
-        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Jump, E_Shoot, E_Teleport };
-
-        // If endless mode, run the endless mode only
-        if (fightMode == FightMode.RandomEndless) {
-            UnlockEverything();
-            StartCoroutine(Endless());
-            return;
-        }
-
-        // If not waves mode either, then an enemy was selected, so spawn that enemy endlessly
-        if (fightMode != FightMode.Waves) {
-            GameObject selected_enemy = null;
-
-            // Assign the selected enemy
-            if (fightMode == FightMode.E_Divide_L) {
-                selected_enemy = E_Divide_L;
-            }
-            if (fightMode == FightMode.E_Movement) {
-                selected_enemy = E_Movement;
-            }
-            if (fightMode == FightMode.E_Jump) {
-                selected_enemy = E_Jump;
-            }
-            if (fightMode == FightMode.E_Shoot) {
-                selected_enemy = E_Shoot;
-            }
-            if (fightMode == FightMode.E_Teleport) {
-                selected_enemy = E_Teleport;
-            }
-
-            UnlockEverything();
-            StartCoroutine(Endless(selected_enemy));
-            return;
-        }
-
-        // Wait a bit before starting the enemies
-        Invoke("DelayedStart", 5f);
-    }
-
-    void DelayedStart()
-    {   
-        start = true;
-
-        // If the code reaches here, then we are doing the "Waves" fight mode
-        scoreLabel.enabled = false;
-
-        // Setup the arrays of enemies
-        SetupLists();
-
-        // This gets the increments that enemies will spawn at
-        float spawn_increment_seconds = waves[Settings.progress.nextWave].spawn_time_seconds / waves[Settings.progress.nextWave].spawn_order.Length;
-        
-        // Here we start StartCoroutine instances, all at the start time, but in the SpawnEnemy we wait X amount of time before creating the enemies
-        float total = 0;
-        foreach (GameObject item in waves[Settings.progress.nextWave].spawn_order) {
-            StartCoroutine(SpawnEnemy(item, total));
-            total += spawn_increment_seconds;
-        }
-    }
-
-    void UnlockEverything()
-    {
-        // Unlock everything
-        Settings.progress.e_Divide_FirstKill = true;
-        Settings.progress.e_Movement_FirstKill = true;
-        Settings.progress.e_Shoot_FirstKill = true;
-        Settings.progress.e_Teleport_FirstKill = true;
-
-        // Assign first abilities
-        Settings.progress.q_Ability = "Divide";
-        Settings.progress.e_Ability = "Teleport";
-
-        // Hide/Unhide labels
-        GameObject.Find("Score").GetComponent<Text>().enabled = true;
-        GameObject.Find("Wave").GetComponent<Text>().enabled = false;
-        GameObject.Find("WaveNumber").GetComponent<Text>().enabled = false;
-    }
 
     void SetupLists()
     {
@@ -131,7 +37,8 @@ public class Game : MonoBehaviour
             new Wave(){
                 spawn_time_seconds = 10,
                 spawn_order = new GameObject[]{
-                    E_Teleport
+                    // E_Jump, E_Movement, E_Jump, E_Movement, E_Jump, E_Movement
+                    E_Jump, E_Movement
                 },
             },
             // Unlock shooting
@@ -177,6 +84,106 @@ public class Game : MonoBehaviour
                 },
             }
         };
+    }
+
+    void Start()
+    {
+        GameObject.Find("UnlockPopup").transform.localScale = new Vector3(0f, 0f, 0f);
+        scoreLabel = GameObject.Find("Score").GetComponent<Text>();
+        scoreLabel.enabled = false;
+        GameObject.Find("WaveNumber").GetComponent<Text>().text = Settings.progress.nextWave.ToString();
+
+        // Turn the cursor off so that it isn't in the way
+        Cursor.visible = false;
+
+        // If no enemies, just stop the code
+        if (fightMode == FightMode.NoEnemies) {
+            return;
+        }
+
+        // Set up the all enemies list (THIS HAS TO HAPPEN BEFORE  THE ENDLESS() FUNCTION IS CALLED)
+        AllEnemies = new List<GameObject>(){ E_Divide_L, E_Movement, E_Shoot, E_Teleport, E_Jump };
+
+        // If endless mode, run the endless mode only
+        if (fightMode == FightMode.RandomEndless) {
+            UnlockEverything();
+            StartCoroutine(Endless());
+            return;
+        }
+
+        // If not waves mode either, then an enemy was selected, so spawn that enemy endlessly
+        if (fightMode != FightMode.Waves & fightMode != FightMode.Wave_0) {
+            GameObject selected_enemy = null;
+
+            // Assign the selected enemy
+            if (fightMode == FightMode.E_Divide_L) {
+                selected_enemy = E_Divide_L;
+            }
+            if (fightMode == FightMode.E_Movement) {
+                selected_enemy = E_Movement;
+            }
+            if (fightMode == FightMode.E_Jump) {
+                selected_enemy = E_Jump;
+            }
+            if (fightMode == FightMode.E_Shoot) {
+                selected_enemy = E_Shoot;
+            }
+            if (fightMode == FightMode.E_Teleport) {
+                selected_enemy = E_Teleport;
+            }
+
+            UnlockEverything();
+            StartCoroutine(Endless(selected_enemy));
+            return;
+        }
+
+        // Wait a bit before starting the enemies
+        Invoke("DelayedStart", 5f);
+    }
+
+    void DelayedStart()
+    {   
+        start = true;
+
+        // If the code reaches here, then we are doing the "Waves" fight mode
+        scoreLabel.enabled = false;
+
+        // Setup the arrays of enemies
+        SetupLists();
+
+        // If the wave_0 setting is active
+        if (fightMode == FightMode.Wave_0) {
+            UnlockEverything();
+            Settings.progress.nextWave = 0;
+        }
+
+        // This gets the increments that enemies will spawn at
+        float spawn_increment_seconds = waves[Settings.progress.nextWave].spawn_time_seconds / waves[Settings.progress.nextWave].spawn_order.Length;
+        
+        // Here we start StartCoroutine instances, all at the start time, but in the SpawnEnemy we wait X amount of time before creating the enemies
+        float total = 0;
+        foreach (GameObject item in waves[Settings.progress.nextWave].spawn_order) {
+            StartCoroutine(SpawnEnemy(item, total));
+            total += spawn_increment_seconds;
+        }
+    }
+
+    void UnlockEverything()
+    {
+        // Unlock everything
+        Settings.progress.e_Divide_FirstKill = true;
+        Settings.progress.e_Movement_FirstKill = true;
+        Settings.progress.e_Shoot_FirstKill = true;
+        Settings.progress.e_Teleport_FirstKill = true;
+
+        // Assign first abilities
+        Settings.progress.q_Ability = "Divide";
+        Settings.progress.e_Ability = "Teleport";
+
+        // Hide/Unhide labels
+        GameObject.Find("Score").GetComponent<Text>().enabled = true;
+        GameObject.Find("Wave").GetComponent<Text>().enabled = false;
+        GameObject.Find("WaveNumber").GetComponent<Text>().enabled = false;
     }
 
     IEnumerator SpawnEnemy(GameObject p_enemy, float p_spawn_increment_seconds)

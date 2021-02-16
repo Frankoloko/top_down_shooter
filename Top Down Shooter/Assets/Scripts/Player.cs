@@ -176,7 +176,7 @@ public class Player : MonoBehaviour
     void OnCollisionEnter2D(Collision2D collision)
     {
         // Return if the collided tag is not an enemy type
-        if (collision.gameObject.tag != "Enemy") {
+        if (collision.gameObject.tag == "Untagged") {
             return;
         }
 

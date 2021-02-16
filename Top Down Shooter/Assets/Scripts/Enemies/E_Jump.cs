@@ -40,6 +40,7 @@ public class E_Jump : MonoBehaviour, E_BaseInterface
 
         // Spawn shadow
         shadow = Instantiate(shadowPrefab, transform.position, Quaternion.identity);
+        shadow.GetComponent<E_Jump_Shadow>().jumper = gameObject;
 
         // Jump Up
         jumpUp = true;
@@ -74,6 +75,17 @@ public class E_Jump : MonoBehaviour, E_BaseInterface
                 jumpDown = false;
                 gameObject.transform.localScale = originalScale;
                 transform.gameObject.tag = "Enemy";
+
+                // Loop through all the objects inside of the shadow and destory each of them
+                List<GameObject> objectsInside = shadow.GetComponent<E_Jump_Shadow>().objectsInside;
+                for (var i = 0; i < objectsInside.Count; i++) {
+                    // Console.WriteLine("Amount is {0} and type is {1}", myMoney[i].amount, myMoney[i].type);
+                    if (objectsInside[i].name != "Player") {
+                        Destroy(objectsInside[i]);
+                    }
+                }
+
+                // Make sure to do this last (after looping through the objects inside)
                 Destroy(shadow);
             }
         }

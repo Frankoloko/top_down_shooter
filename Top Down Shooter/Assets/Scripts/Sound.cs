@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Sound: MonoBehaviour
 {
+    public static Sound Instance;
     public AudioSource soundDestroy;
     public AudioSource soundGameOver;
     public AudioSource soundHit;
@@ -13,8 +14,14 @@ public class Sound: MonoBehaviour
     public AudioSource soundTeleport;
 
     void Awake() {
-        // This stops this GameObject from getting destroyed when the scene switches (so that the sounds are still accessible)
-        DontDestroyOnLoad(this.gameObject);
+        if(Instance) {
+            // This destroys this copy if one already exists
+            DestroyImmediate(gameObject);
+        } else {
+            // This stops this GameObject from getting destroyed when the scene switches (so that the sounds are still accessible)
+            DontDestroyOnLoad(gameObject);
+            Instance = this;
+        }
     }
 
     public void PlayShoot()

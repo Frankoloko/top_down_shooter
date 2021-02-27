@@ -177,7 +177,7 @@ public class Game : MonoBehaviour
         Settings.progress.e_Teleport_FirstKill = true;
 
         // Assign first abilities
-        Settings.progress.q_Ability = "Divide";
+        Settings.progress.q_Ability = "Jump";
         Settings.progress.e_Ability = "Teleport";
 
         // Hide/Unhide labels

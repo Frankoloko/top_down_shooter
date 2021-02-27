@@ -33,64 +33,30 @@ public class Player : MonoBehaviour
         movement.x = Input.GetAxis("Horizontal");
         movement.y = Input.GetAxis("Vertical");
 
-        if (Input.GetKeyDown(KeyCode.Q)) {
-            if (Settings.progress.q_Ability == "Divide") {
-                Clone();    
-            }
-            if (Settings.progress.q_Ability == "Teleport") {
-                Teleport();    
-            }
-        }
-        if (Input.GetKeyDown(KeyCode.E)) {
-            if (Settings.progress.e_Ability == "Divide") {
-                Clone();    
-            }
-            if (Settings.progress.e_Ability == "Teleport") {
-                Teleport();
-            }
-        }
 
-        MovePlayer();
+        CheckAbilityPressed();
+        if (!Settings.player.stopMovement) {
+            MovePlayer();
+        }
         ShootProjectile();
     }
 
-    void Teleport()
+    void CheckAbilityPressed()
     {
-        // Up
-        if (Input.GetKey(KeyCode.UpArrow)) {
-            float new_y = transform.position.y + Settings.teleport.distance;
-            if (new_y > maxCameraHeight) {
-                new_y = maxCameraHeight;
-            }
-            transform.position = new Vector2(transform.position.x, new_y);
+        // Here we check if the certain ability is pressed, if so, we just run that ability's commands
+        if ((Input.GetKeyDown(KeyCode.Q) & Settings.progress.q_Ability == "Divide") ^ (Input.GetKeyDown(KeyCode.E) & Settings.progress.e_Ability == "Divide")) {
+            Ability_Clone();
         }
-        // Down
-        if (Input.GetKey(KeyCode.DownArrow)) {
-            float new_y = transform.position.y - Settings.teleport.distance;
-            if (new_y < maxCameraHeight * -1) {
-                new_y = maxCameraHeight * -1;
-            }
-            transform.position = new Vector2(transform.position.x, new_y);
+        if ((Input.GetKeyDown(KeyCode.Q) & Settings.progress.q_Ability == "Teleport") ^ (Input.GetKeyDown(KeyCode.E) & Settings.progress.e_Ability == "Teleport")) {
+            Ability_Teleport();
         }
-        // Right
-        if (Input.GetKey(KeyCode.RightArrow)) {
-            float new_x = transform.position.x + Settings.teleport.distance;
-            if (new_x > maxCameraWidth) {
-                new_x = maxCameraWidth;
+        if ((Input.GetKey(KeyCode.Q) & Settings.progress.q_Ability == "Jump") ^ (Input.GetKey(KeyCode.E) & Settings.progress.e_Ability == "Jump")) {
+            A_Jump.Update_Jump();
+        } else {
+            if (Settings.player.stopMovement) {
+                A_Jump.StopJump();
             }
-            transform.position = new Vector2(new_x, transform.position.y);
         }
-        // Left
-        if (Input.GetKey(KeyCode.LeftArrow)) {
-            float new_x = transform.position.x - Settings.teleport.distance;
-            if (new_x < maxCameraWidth * -1) {
-                new_x = maxCameraWidth * -1;
-            }
-            transform.position = new Vector2(new_x, transform.position.y);
-        }
-
-        // Play teleport sound
-        sound.PlayTeleport();
     }
 
     void MovePlayer()
@@ -157,9 +123,9 @@ public class Player : MonoBehaviour
                 bullet.velocity = velocity;
                 bullet.shooter = gameObject;
 
-                // Start the shoot timeout delay
+                // Start the shoot cooldown delay
                 shootOnCooldown = true;
-                StartCoroutine(ShootOffTimeout());
+                InvokeRepeating("ShootCooldownFalse", 0f, Settings.player.shootCooldown);
 
                 // Destory the new projectile after an X amount of time
                 Destroy(projectile, BulletDestroyTime);
@@ -167,9 +133,8 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator ShootOffTimeout()
+    void ShootCooldownFalse()
     {
-        yield return new WaitForSeconds(Settings.player.shootCooldown);
         shootOnCooldown = false;
     }
 
@@ -213,7 +178,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Clone()
+    void Ability_Clone()
     {
         // This if stops the player from making multiple clones. We only allow the original "Player" object to create clones
         if (cloneActive ^ gameObject.name != "Player") {
@@ -231,8 +196,47 @@ public class Player : MonoBehaviour
     IEnumerator DestoryClone(GameObject clone)
     {
         // Destroy the clone after x amount of time
-        yield return new WaitForSeconds(Settings.clone.duration);
+        yield return new WaitForSeconds(Settings.e_Divide.player_duration);
         Destroy(clone);
         cloneActive = false;
+    }
+
+    void Ability_Teleport()
+    {
+        // Up
+        if (Input.GetKey(KeyCode.UpArrow)) {
+            float new_y = transform.position.y + Settings.e_Teleport.player_distance;
+            if (new_y > maxCameraHeight) {
+                new_y = maxCameraHeight;
+            }
+            transform.position = new Vector2(transform.position.x, new_y);
+        }
+        // Down
+        if (Input.GetKey(KeyCode.DownArrow)) {
+            float new_y = transform.position.y - Settings.e_Teleport.player_distance;
+            if (new_y < maxCameraHeight * -1) {
+                new_y = maxCameraHeight * -1;
+            }
+            transform.position = new Vector2(transform.position.x, new_y);
+        }
+        // Right
+        if (Input.GetKey(KeyCode.RightArrow)) {
+            float new_x = transform.position.x + Settings.e_Teleport.player_distance;
+            if (new_x > maxCameraWidth) {
+                new_x = maxCameraWidth;
+            }
+            transform.position = new Vector2(new_x, transform.position.y);
+        }
+        // Left
+        if (Input.GetKey(KeyCode.LeftArrow)) {
+            float new_x = transform.position.x - Settings.e_Teleport.player_distance;
+            if (new_x < maxCameraWidth * -1) {
+                new_x = maxCameraWidth * -1;
+            }
+            transform.position = new Vector2(new_x, transform.position.y);
+        }
+
+        // Play teleport sound
+        sound.PlayTeleport();
     }
 }

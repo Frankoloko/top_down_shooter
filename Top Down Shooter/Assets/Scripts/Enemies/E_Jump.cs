@@ -59,7 +59,7 @@ public class E_Jump : MonoBehaviour, E_BaseInterface
     {
         // Scale the unit down
         if (bendDown) {
-            gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x, gameObject.transform.localScale.y * 0.9975f, gameObject.transform.localScale.z);
+            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y * 0.9975f, transform.localScale.z);
         }
 
         // Move the y position upwards
@@ -73,7 +73,7 @@ public class E_Jump : MonoBehaviour, E_BaseInterface
                 transform.position = new Vector2(shadow.transform.position.x, transform.position.y - (jumpSpeed / 2));
             } else {
                 jumpDown = false;
-                gameObject.transform.localScale = originalScale;
+                transform.localScale = originalScale;
                 transform.gameObject.tag = "Enemy";
 
                 // Loop through all the objects inside of the shadow and destory each of them

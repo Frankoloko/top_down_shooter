@@ -13,9 +13,6 @@ public class Settings
     static public E_Jump e_Jump = new E_Jump();
     static public E_Shoot e_Shoot = new E_Shoot();
     static public E_Teleport e_Teleport = new E_Teleport();
-    // Abilities
-    static public Clone clone = new Clone();
-    static public Teleport teleport = new Teleport();
 
     static public void ResetStatics()
     {
@@ -26,8 +23,6 @@ public class Settings
         e_Shoot = new E_Shoot();
         e_Teleport = new E_Teleport();
         e_Jump = new E_Jump();
-        clone = new Clone();
-        teleport = new Teleport();
     }
 
     // GENERAL
@@ -55,6 +50,7 @@ public class Settings
     {
         public float bulletSpeed = 15f;
         public float movementSpeed = 8f;
+        public bool stopMovement = false;
         public float shootCooldown = 1f;
     }
 
@@ -70,6 +66,8 @@ public class Settings
         public float S_MovementSpeed = 7f;
         public float S_Health = 1f;
         public int killCounter = 8;
+
+        public float player_duration = 10f;
     }
 
     [System.Serializable]
@@ -108,21 +106,7 @@ public class Settings
         public float pauseBeforeShoot = 3f;
         public float pauseAfterShoot = 1f;
         public float bulletSize = 25f;
-    }
 
-    // ABILITIES
-
-    [System.Serializable]
-    public class Clone
-    {
-        public float cooldown = 7f;
-        public float duration = 10f;
-    }
-
-    [System.Serializable]
-    public class Teleport
-    {
-        public float cooldown = 7f;
-        public float distance = 10f;
+        public float player_distance = 10f;
     }
 }
